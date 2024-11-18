@@ -12,4 +12,5 @@ int main()
     listStore(arr);
     removeStore(&arr);
     listStore(arr);
+    return 0;
 }
