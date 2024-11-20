@@ -5,7 +5,7 @@
 #ifndef __circular_queue_h__
 #define __circular_queue_h__
 #include <stdio.h>
-#include <stdbool.h> // Include for boolean type
+#include <stdbool.h> 
 #include "boolean.h"
 #include "str.h"
 #define IDX_UNDEF -1

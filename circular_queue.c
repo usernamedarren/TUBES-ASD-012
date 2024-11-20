@@ -27,15 +27,15 @@ void enqueue(Queue *Q, ElTypeChar X) {
     if (IsEmptyQueue(*Q)) {
         Q->idxHead = 0;
         Q->idxTail = 0;
-        strcpy(Q->Tab[Q->idxTail], X);
+        strcopy(Q->Tab[Q->idxTail], X);
     } else {
         Q->idxTail = (Q->idxTail + 1) % (IDX_MAX + 1);
-        strcpy(Q->Tab[Q->idxTail], X);
+        strcopy(Q->Tab[Q->idxTail], X);
     }
 }
 
 void dequeue(Queue *Q, ElTypeChar *X) {
-    strcpy(*X, Q->Tab[Q->idxHead]);
+    strcopy(*X, Q->Tab[Q->idxHead]);
     if (Q->idxHead == Q->idxTail) {
         Q->idxHead = IDX_UNDEF;
         Q->idxTail = IDX_UNDEF;

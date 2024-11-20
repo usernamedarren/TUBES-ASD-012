@@ -26,7 +26,7 @@ void InsertAt(ArrayDin *array, char* el, IdxType i, int price) {
         array->isi[j] = array->isi[j - 1];
     }
 
-    strcpy(array->isi[i].name, el);
+    strcopy(array->isi[i].name, el);
     array->isi[i].price = price;
     array->Neff++;
 }
