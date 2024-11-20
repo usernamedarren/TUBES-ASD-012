@@ -3,7 +3,7 @@
 
 #include "boolean.h"
 #include "mesinkata.h"
-#include "queue.h"
+#include "queueChar.h"
 #include "array.h"
 #include "RNG.h"
 

@@ -11,11 +11,11 @@
 
 /* Definisi elemen dan koleksi objek */
 typedef int IdxType;
-typedef int ElTypeInt;
+typedef int ElType;
 
 typedef struct
 	{
-		ElTypeInt TI [IdxMax-IdxMin+1]; /* memori tempat penyimpan elemen (container) */
+		ElType TI [IdxMax-IdxMin+1]; /* memori tempat penyimpan elemen (container) */
 		int Neff; /* banyaknya elemen efektif */
 	} TabInt;
 
@@ -53,7 +53,7 @@ IdxType GetLastIdx (TabInt T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan indeks elemen terakhir */
 /* *** Menghasilkan sebuah elemen *** */
-ElTypeInt GetElmt (TabInt T, IdxType i);
+ElType GetElmt (TabInt T, IdxType i);
 /* Prekondisi : Tabel tidak kosong, i antara FirstIdx(T)..LastIdx(T) */
 /* Mengirimkan elemen tabel yang ke-i */
 
@@ -63,7 +63,7 @@ void SetTab (TabInt Tin, TabInt *Tout);
 /* I.S. Tin terdefinisi, sembarang */
 /* F.S. Tout berisi salinan Tin */
 /* Assignment THsl -> Tin */
-void SetEl (TabInt *T, IdxType i, ElTypeInt v);
+void SetEl (TabInt *T, IdxType i, ElType v);
 /* I.S. T terdefinisi, sembarang */
 /* F.S. Elemen T yang ke-i bernilai v */
 /* Mengeset nilai elemen tabel yang ke-i sehingga bernilai v */
@@ -112,11 +112,11 @@ TabInt MinusTab (TabInt T1, TabInt T2);
 /* Mengirimkan T1 - T2 */
 
 /* ********** NILAI EKSTREM ********** */
-ElTypeInt ValMax (TabInt T);
+ElType ValMax (TabInt T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan nilai maksimum tabel */
 
-ElTypeInt ValMin (TabInt T);
+ElType ValMin (TabInt T);
 /* Prekondisi : Tabel T tidak kosong */
 /* Mengirimkan nilai minimum tabel */
 
@@ -129,7 +129,5 @@ IdxType IdxMinTab (TabInt T);
 /* Prekondisi : Tabel tidak kosong */
 /* Mengirimkan indeks i */
 /* dengan elemen ke-i nilai minimum pada tabel */
-
-TabInt mixArray(TabInt T1, TabInt T2);
 
 #endif
