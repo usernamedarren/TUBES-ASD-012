@@ -1,4 +1,113 @@
-#include "bioWeapon.h"
+#include "console.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+void listStore(ArrayDin A)
+{
+    if (A.Neff==0)
+    {
+        printf("Toko kosong\n");
+    }
+    else
+    {
+        printf("Daftar barang di toko:\n");
+        for (int i=0;i<A.Neff;i++)
+        {
+            printf("%d. %s Price: %d\n",i+1,A.isi[i].name,A.isi[i].price);
+        }
+    }
+}
+
+void requestStore(ArrayDin A, Queue *Q) {
+    char name[100];
+    printf("Nama barang yang diminta: \n");
+    scanf("%s", name);
+    int found = 0;
+
+    for (int i = 0; i < A.Neff; i++) {
+        if (strcmp(A.isi[i].name, name) == 0) {
+            enqueue(Q, A.isi[i].name);
+            found = 1;
+            printf("Barang dengan nama %s telah dimasukkan ke dalam toko\n", name);
+            break;
+        }
+    }
+
+    for (int i = 0; i < LengthQueue(*Q); i++) {
+        if (strcmp(Q->Tab[i], name) == 0) {
+            found = 1;
+            printf("Barang dengan nama %s telah didalam queue\n", name);
+            break;
+        }
+    }
+
+    if (found == 0) {
+        enqueue(Q, name);
+    }
+}
+
+void supplyStore(ArrayDin *A, Queue *Q)
+{
+    if (IsEmptyQueue(*Q))
+    {
+        printf("Tidak ada barang yang perlu ditambahkan\n");
+    }
+    else
+    {
+        printf("Apakah kamu ingin menambahkan %s ke dalam toko (terima/tunda/tolak)\n",HEAD(*Q));
+        char answer[100];
+        scanf("%s",answer);
+        if (strcmp(answer, "terima") == 0) 
+        {
+            int price;
+            printf("Harga barang: \n");
+            scanf("%d",&price);
+            InsertAt(A,HEAD(*Q),Length(*A),price);
+            printf("%s dengan harga %d telah ditambahkan ke toko.\n",HEAD(*Q),price);
+            dequeue(Q,&answer);
+        }
+        else if (strcmp(answer, "tunda") == 0)
+        {
+            printf("%s telah ditunda ke antrian\n",HEAD(*Q));
+            dequeue(Q,&answer);
+            enqueue(Q,answer);
+        }
+        else if (strcmp(answer, "tolak") == 0)
+        {
+            printf("%s telah dihapuskan dari antrian\n",HEAD(*Q));
+            dequeue(Q,&answer);
+        }
+        else
+        {
+            printf("Input tidak valid\n");
+        }
+    }
+} 
+
+void removeStore(ArrayDin *A)
+{
+    if (IsEmpty(*A))
+    {
+        printf("Toko kosong, tidak ada yang dapat dihapus\n");
+        return;
+    }
+    char name[100];
+    printf("Nama barang yang ingin dihapus: \n");
+    scanf("%s",name);
+    for (int i=0;i<A->Neff;i++)
+    {
+        if (strcmp(A->isi[i].name,name)==0)
+        {
+            DeleteAt(A,i);
+            printf("Barang dengan nama %s telah dihapus\n",name);
+            break;
+        }
+        else if (i==A->Neff-1)
+        {
+            printf("Barang tidak ditemukan\n");
+        }
+    }
+}
 
 void dna_to_rna(char *string) {
     for (int i = 0; i < strlength(string); i++) {

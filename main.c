@@ -1,8 +1,4 @@
-#include "storeSupply.h"
-#include "storeRemove.h"
-#include "storeList.h"
-#include "storeRequest.h"
-#include "bioWeapon.h"
+#include "console.h"
 
 int main()
 {
