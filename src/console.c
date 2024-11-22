@@ -3,176 +3,109 @@
 #include <time.h>
 #include "console.h"
 
-Word listKataInggris[LIST_SIZE] = {
-    {"AGENT", 5}, {"AUDIO", 5}, {"BLACK", 5}, {"BUYER", 5}, {"CRASH", 5}, 
-    {"CLAIM", 5}, {"DELAY", 5}, {"ENTRY", 5}, {"FORTH", 5}, {"GROUP", 5}, 
-    {"GHOST", 5}, {"HAPPY", 5}, {"HORSE", 5}, {"HEAVY", 5}, {"IDEAL", 5}, 
-    {"IMAGE", 5}, {"JUICE", 5}, {"JUDGE", 5}, {"KNOWN", 5}, {"KNEES", 5}, 
-    {"LOCAL", 5}, {"LOBBY", 5}, {"MONEY", 5}, {"MEDIA", 5}, {"NORTH", 5}, 
-    {"NAILS", 5}, {"OTHER", 5}, {"OFTEN", 5}, {"PAPER", 5}, {"PLANE", 5}, 
-    {"QUEEN", 5}, {"RUSTY", 5}, {"ROUTE", 5}, {"SNAIL", 5}, {"SLOTH", 5},  
-    {"TULIP", 5}, {"TODAY", 5}, {"UNDER", 5}, {"UNION", 5}, {"VALID", 5},   
-    {"VALUE", 5}, {"WATER", 5}, {"WRONG", 5}, {"WHALE", 5}, {"ZEBRA", 5}, 
-    {"EXCEL", 5}, {"AXIOM", 5}, {"INDEX", 5}, {"CRAZE", 5}, {"DOZER", 5} 
+char listKataInggris[LIST_SIZE] [WORD_LENGTH] = {
+    "AGENT", "AUDIO", "BLACK", "BUYER", "CRASH", 
+    "CLAIM", "DELAY", "ENTRY", "FORTH", "GROUP", 
+    "GHOST", "HAPPY", "HORSE", "HEAVY", "IDEAL", 
+    "IMAGE", "JUICE", "JUDGE", "KNOWN", "KNEES", 
+    "LOCAL", "LOBBY", "MONEY", "MEDIA", "NORTH", 
+    "NAILS", "OTHER", "OFTEN", "PAPER", "PLANE", 
+    "QUEEN", "RUSTY", "ROUTE", "SNAIL", "SLOTH",  
+    "TULIP", "TODAY", "UNDER", "UNION", "VALID",   
+    "VALUE", "WATER", "WRONG", "WHALE", "ZEBRA", 
+    "EXCEL", "AXIOM", "INDEX", "CRAZE", "DOZER"
 };
 
-Word listKataIndo[LIST_SIZE] = {
-    {"ABSEN", 5}, {"ATASI", 5}, {"BENCI", 5}, {"BUNGA", 5}, {"CEMAS", 5}, 
-    {"CINTA", 5}, {"DAPUR", 5}, {"DOSEN", 5}, {"EMBER", 5}, {"GELAS", 5}, 
-    {"HALUS", 5}, {"HASIL", 5}, {"INDAH", 5}, {"INSAN", 5}, {"JAMUR", 5}, 
-    {"JARAK", 5}, {"JENUH", 5}, {"JUMPA", 5}, {"KECIL", 5}, {"KERAS", 5}, 
-    {"LEMAK", 5}, {"LIHAT", 5}, {"LAMPU", 5}, {"MERAH", 5}, {"MENIT", 5}, 
-    {"MOBIL", 5}, {"NANTI", 5}, {"NYALA", 5}, {"ORGAN", 5}, {"ONCOM", 5}, 
-    {"PAHIT", 5}, {"PATUH", 5}, {"PINTA", 5}, {"RAKIT", 5}, {"RUSAK", 5}, 
-    {"RINDU", 5}, {"SAKIT", 5}, {"SEDIA", 5}, {"SEMUT", 5}, {"TANAH", 5},   
-    {"TELUR", 5}, {"UJIAN", 5}, {"GANDA", 5}, {"GRAHA", 5}, {"DUNIA", 5}, 
-    {"GITAR", 5}, {"IRAMA", 5}, {"HABIS", 5}, {"ANGIN", 5}, {"BELAH", 5} 
+char listKataIndo[LIST_SIZE] [WORD_LENGTH] = {
+    "ABSEN", "ATASI", "BENCI", "BUNGA", "CEMAS", 
+    "CINTA", "DAPUR", "DOSEN", "EMBER", "GELAS", 
+    "HALUS", "HASIL", "INDAH", "INSAN", "JAMUR", 
+    "JARAK", "JENUH", "JUMPA", "KECIL", "KERAS", 
+    "LEMAK", "LIHAT", "LAMPU", "MERAH", "MENIT", 
+    "MOBIL", "NANTI", "NYALA", "ORGAN", "ONCOM", 
+    "PAHIT", "PATUH", "PINTA", "RAKIT", "RUSAK", 
+    "RINDU", "SAKIT", "SEDIA", "SEMUT", "TANAH",   
+    "TELUR", "UJIAN", "GANDA", "GRAHA", "DUNIA", 
+    "GITAR", "IRAMA", "HABIS", "ANGIN", "BELAH"
 };
 
 int RNG (int min, int max) {
-    srand(time(NULL)); // menetapkan nilai seed dengan waktu yang berubah tiap detik
     return(rand() % (max - min + 1) + min); // nilai random berada pada rentang value minimal dan maksimal sesuai yang diinginkan
 }
 
-boolean checkSame(Word kataTebakan, Word kataJawaban) {
-    int count = 0;
-    for (int i = 0; i < WORD_LENGTH; i++) {
-        if (kataTebakan.TabWord[i] == kataJawaban.TabWord[i]) {
-            count++;
-        }
-    }
+int charToInt (char c) {
+    return c - '0';
+}
 
-    if (count == 5) {
-        return true;
-    } else {
-        return false; 
-    }
-} 
-
-boolean isCharIn (char c, Word W) {
-    for (int i = 0; i < WORD_LENGTH; i++) {
-        if (c == W.TabWord[i]) {
+boolean isCharIn (char c, char *kata) {
+    for (int i = 0; kata[i] != '\0'; i++) {
+        if (c == kata[i]) {
             return true;
         }
     }
     return false;
 }
 
-boolean isIdxIn (IdxType idx, TabInt idxArr) {
-    for (int i = 0; i < NbElmt(idxArr); i++) {
-        if (idx == idxArr.TI[i]) {
-            return true;
-        }
-    }
-    return false;
-}
-
-int indexIsCharIn (char c, Word W) {
-    for (int i = 0; i < WORD_LENGTH; i++) {
-        if (c == W.TabWord[i]) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-Word duplicateWord (Word W) {
-    Word duplicateKata;
-
-    duplicateKata.Length = W.Length;
-    for (int i = 0; i < W.Length; i++) {
-        duplicateKata.TabWord[i] = W.TabWord[i];
-    }
-
-    return(duplicateKata);
-}
-
-void wordl3(Word kataJawaban) {
-    Word copyKataJawaban;
-    Word kataTebakan;
-    Word copyKataTebakan;
-    TabInt karakterFormat;
-    TabInt simbolFormat;
-    TabInt idxArray;
-    Queue hasilFormat;
-    IdxType countIdx;
-    int jumlahTebakan = 0;
+void wordl3(char *kataJawaban) {
+    char kataTebakan[WORD_LENGTH + 1]; // space terakhir untuk \0 sebagai null terminator
+    char copyKataTebakan[WORD_LENGTH + 1];
+    char copyKataJawaban[WORD_LENGTH + 1];
+    char results[MAX_ATTEMPTS][WORD_LENGTH * 3 + 1]; // menyimpan hasil dari berbagai percobaan
+    char currentResult[WORD_LENGTH * 3 + 1]; // menyimpan hasil dari percobaan saat ini
     boolean tebakanBenar = false;
+    int attempts = 0;
 
-    CreateQueue (&hasilFormat);
-    while (tebakanBenar == false && jumlahTebakan < 6) {
-        countIdx = 0;
-        MakeEmpty(&idxArray);
-        MakeEmpty(&karakterFormat);  
-        MakeEmpty(&simbolFormat);
-        copyKataJawaban = duplicateWord(kataJawaban);
-        printf("Masukkan kata tebakan Anda: ");
-        kataTebakan.Length = WORD_LENGTH;
-
-        for (int i = 0; i < WORD_LENGTH; i++) {
-            scanf(" %c", &kataTebakan.TabWord[i]);  
-        } 
-
-        copyKataTebakan = duplicateWord(kataTebakan);
-
-        for (int i = 0; i < WORD_LENGTH; i++) {
-            if (copyKataTebakan.TabWord[i] == copyKataJawaban.TabWord[i]) {
-                SetEl(&karakterFormat, i, kataTebakan.TabWord[i]);
-                SetEl(&simbolFormat, i, ' ');
-                copyKataTebakan.TabWord[i] = KATATEBAKAN_UNDEF;
-                copyKataJawaban.TabWord[i] = KATAJAWABAN_UNDEF;
-                SetEl(&idxArray, countIdx, i);
-                countIdx++;
+    printf("MASUKKAN KATA TEBAKAN ANDA: ");
+    STARTWORD();
+    strcopy(kataTebakan, currentWord.TabWord);
+    while (!tebakanBenar && attempts < 6) {
+        attempts++;
+        strcopy(copyKataJawaban, kataJawaban);
+        strcopy(copyKataTebakan, kataTebakan);
+        for (int i = 0; copyKataTebakan[i] != '\0'; i++) {
+            if (copyKataJawaban[i] == copyKataTebakan[i]) {
+                currentResult[i * 3] = copyKataTebakan[i];
+                currentResult[i * 3 + 1] = ' ';
+                currentResult[i * 3 + 2] = ' ';
+                copyKataTebakan[i] = KATATEBAKAN_UNDEF;
+                copyKataJawaban[i] = KATAJAWABAN_UNDEF;
             }
         }
 
-        for (int i = 0; i < WORD_LENGTH; i++) {
-            if (!isIdxIn(i, idxArray)) {
-                SetEl(&karakterFormat, i, kataTebakan.TabWord[i]);
-                if (isCharIn(copyKataTebakan.TabWord[i], copyKataJawaban)) {
-                    SetEl(&simbolFormat, i, '*');
-                    copyKataJawaban.TabWord[indexIsCharIn(copyKataTebakan.TabWord[i], copyKataJawaban)] = KATAJAWABAN_UNDEF;
-                } else {
-                    SetEl(&simbolFormat, i, '%');
-                }
+        for (int i = 0; copyKataTebakan[i] != '\0'; i++) {
+            if (isCharIn(copyKataTebakan[i], copyKataJawaban)) {
+                currentResult[i * 3] = copyKataTebakan[i];
+                currentResult[i * 3 + 1] = '*';
+                currentResult[i * 3 + 2] = ' ';
+                copyKataJawaban[i] = KATAJAWABAN_UNDEF;
+            } else if (!isCharIn(copyKataTebakan[i], copyKataJawaban) && copyKataTebakan[i] != '#') {
+                currentResult[i * 3] = copyKataTebakan[i];
+                currentResult[i * 3 + 1] = '%';
+                currentResult[i * 3 + 2] = ' ';
             }
         }
-        jumlahTebakan++;
 
-        for (int i = 0; i < WORD_LENGTH; i++) {
-            enqueue(&hasilFormat, karakterFormat.TI[i]);
-            enqueue(&hasilFormat, simbolFormat.TI[i]);
-            enqueue(&hasilFormat, ' ');
-        }
-        
-        printf("\nHasil tebakan:\n");
-        int count = 0;
-        for (int i = 0; i < length(hasilFormat); i++) {
-            printf("%c", hasilFormat.buffer[i]);
-            count++;
-            if (count % 15 == 0 && count != 0 && count != length(hasilFormat)) {
-                printf("\n");
+        currentResult[WORD_LENGTH * 3] = '\0';
+        strcopy(results[attempts], currentResult);
+        for (int i = 0; i < MAX_ATTEMPTS; i++) {
+            if (i < attempts) {
+                printf("%s\n", results[i]);
+            } else {
+                printf("_ _ _ _ _\n");
             }
         }
-        printf("\n");
-
-        for (int i = jumlahTebakan; i < 6; i++) {
-            printf("_  _  _  _  _ \n");
-        }
-
-        if (checkSame(kataTebakan, kataJawaban)) {
+        if (strcmp(kataTebakan, kataJawaban) == 0) {
+            printf("SELAMAT TEBAKANMU BENAR! +650 RUPIAH TELAH DITAMBAHKAN KE AKUN ANDA!");
             tebakanBenar = true;
+        } else { 
+            ADVWORD();
         }
     }
-
-    if (checkSame(kataTebakan, kataJawaban)) {
-        printf("SELAMAT TEBAKANMU BENAR! +650 RUPIAH TELAH DITAMBAHKAN KE AKUN ANDA!");
-    } else {
+    
+    if (tebakanBenar == false) {
         printf("BOO! ANDA KALAH\n");
         printf("JAWABAN YANG TEPAT ADALAH ");
-        for (int i = 0; i < WORD_LENGTH; i++) {
-            printf("%c", kataJawaban.TabWord[i]);
-        }
+        printf("%s", kataJawaban);
     }
 }
 
@@ -180,11 +113,13 @@ void tebakAngka(int angkaJawaban) {
     int angkaTebakan;
     boolean tebakanBenar = false;
     int coinHadiah = 600;
-    int jumlahTebakan = 0;
+    int attempts = 0;
 
-    while (tebakanBenar == false && jumlahTebakan < 10) {
-        printf("Tebak angka: ");
-        scanf("%d", &angkaTebakan);
+    printf("Tebak angka: ");
+    START();
+    while (tebakanBenar == false && attempts < 10) {
+        attempts += 1;
+        angkaTebakan = charToInt(currentChar);
         if (angkaTebakan > angkaJawaban) {
             printf("Tebakanmu lebih besar!\n\n");
             coinHadiah -= 50;
@@ -195,7 +130,7 @@ void tebakAngka(int angkaJawaban) {
             printf("Tebakanmu benar! +%d rupiah telah ditambahkan ke akun Anda.\n", coinHadiah);
             tebakanBenar = true;
         }
-        jumlahTebakan += 1;
+        ADV();
     }
 
     if (tebakanBenar == false) {
@@ -204,29 +139,30 @@ void tebakAngka(int angkaJawaban) {
 }
 
 void workChallenge() {
-    Word kataJawaban;
-    int language;
+    char* kataJawaban;
     int pickChallenge;
+
+    srand(time(NULL)); // menetapkan nilai seed dengan waktu yang berubah tiap detik
 
     printf("Daftar challenge yang tersedia:\n");
     printf("1. Tebak Angka (biaya main=200)\n");   
     printf("2. WORDL399 (biaya main = 500)\n");
     printf("Masukkan challenge yang hendak dimainkan: ");
-    scanf("%d", &pickChallenge);
+    START();
     printf("\n");
 
-    if (pickChallenge == 1) {
+    if (charToInt(currentChar) == 1) {
         tebakAngka(RNG(1, 100));
-    } else if (pickChallenge == 2) {
+    } else if (charToInt(currentChar) == 2) {
         printf("KATA TERSEDIA DALAM 2 BAHASA YAITU: \n");
         printf("1. English\n");
         printf("2. Bahasa Indonesia\n");
         printf("PILIH BAHASA DARI KATA YANG INGIN ANDA TEBAK: ");
-        scanf("%d", &language);
+        ADV();
         printf("SELAMAT DATANG DI WORDL3! ANDA MEMILIKI 6 KESEMPATAN UNTUK MENJAWAB DENGAN BENAR!\n");
-        if (language == 1) { 
+        if (charToInt(currentChar) == 1) { 
             kataJawaban = listKataInggris[RNG(0,50)];
-        } else if (language == 2) {
+        } else if (charToInt(currentChar) == 2) {
             kataJawaban = listKataIndo[29];
         }   
         for (int i = 0; i < 6; i++) {

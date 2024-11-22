@@ -18,7 +18,7 @@ typedef struct
 
 /* State Mesin Kata */
 extern boolean EndWord;
-extern Word CurrentWord;
+extern Word currentWord;
 
 void IgnoreBlanks();
 /* Mengabaikan satu atau beberapa BLANK
@@ -45,5 +45,7 @@ void CopyWord();
           currentChar = BLANK atau currentChar = MARK;
           currentChar adalah karakter sesudah karakter terakhir yang diakuisisi.
           Jika panjang kata melebihi NMax, maka sisa kata "dipotong" */
+
+boolean isEndWord();
 
 #endif

@@ -6,7 +6,7 @@
 
 #include "../../boolean.h"
 
-#define MARK '.'
+#define MARK '\n'
 /* State Mesin */
 extern char currentChar;
 extern boolean EOP;
@@ -14,7 +14,6 @@ extern boolean EOP;
 void START();
 /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
    Karakter pertama yang ada pada pita posisinya adalah pada jendela.
-   Pita baca diambil dari stdin.
    I.S. : sembarang
    F.S. : currentChar adalah karakter pertama pada pita
           Jika currentChar != MARK maka EOP akan padam (false)
@@ -26,11 +25,5 @@ void ADV();
    F.S. : currentChar adalah karakter berikutnya dari currentChar yang lama,
           currentChar mungkin = MARK
           Jika  currentChar = MARK maka EOP akan menyala (true) */
-
-char GetCC();
-/* Mengirimkan currentChar */
-
-boolean IsEOP();
-/* Mengirimkan true jika currentChar = MARK */
 
 #endif
