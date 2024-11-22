@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include "wordl3.h"
+#include <stdlib.h>
+#include <time.h>
+#include "console.h"
 
 Word listKataInggris[LIST_SIZE] = {
     {"AGENT", 5}, {"AUDIO", 5}, {"BLACK", 5}, {"BUYER", 5}, {"CRASH", 5}, 
@@ -26,6 +28,11 @@ Word listKataIndo[LIST_SIZE] = {
     {"TELUR", 5}, {"UJIAN", 5}, {"GANDA", 5}, {"GRAHA", 5}, {"DUNIA", 5}, 
     {"GITAR", 5}, {"IRAMA", 5}, {"HABIS", 5}, {"ANGIN", 5}, {"BELAH", 5} 
 };
+
+int RNG (int min, int max) {
+    srand(time(NULL)); // menetapkan nilai seed dengan waktu yang berubah tiap detik
+    return(rand() % (max - min + 1) + min); // nilai random berada pada rentang value minimal dan maksimal sesuai yang diinginkan
+}
 
 boolean checkSame(Word kataTebakan, Word kataJawaban) {
     int count = 0;
@@ -166,5 +173,65 @@ void wordl3(Word kataJawaban) {
         for (int i = 0; i < WORD_LENGTH; i++) {
             printf("%c", kataJawaban.TabWord[i]);
         }
+    }
+}
+
+void tebakAngka(int angkaJawaban) {
+    int angkaTebakan;
+    boolean tebakanBenar = false;
+    int coinHadiah = 600;
+    int jumlahTebakan = 0;
+
+    while (tebakanBenar == false && jumlahTebakan < 10) {
+        printf("Tebak angka: ");
+        scanf("%d", &angkaTebakan);
+        if (angkaTebakan > angkaJawaban) {
+            printf("Tebakanmu lebih besar!\n\n");
+            coinHadiah -= 50;
+        } else if (angkaTebakan < angkaJawaban) {
+            printf("Tebakanmu lebih kecil!\n\n");
+            coinHadiah -= 50;
+        } else { // Tebakan benar
+            printf("Tebakanmu benar! +%d rupiah telah ditambahkan ke akun Anda.\n", coinHadiah);
+            tebakanBenar = true;
+        }
+        jumlahTebakan += 1;
+    }
+
+    if (tebakanBenar == false) {
+        printf("Boo! Anda kalah");
+    }
+}
+
+void workChallenge() {
+    Word kataJawaban;
+    int language;
+    int pickChallenge;
+
+    printf("Daftar challenge yang tersedia:\n");
+    printf("1. Tebak Angka (biaya main=200)\n");   
+    printf("2. WORDL399 (biaya main = 500)\n");
+    printf("Masukkan challenge yang hendak dimainkan: ");
+    scanf("%d", &pickChallenge);
+    printf("\n");
+
+    if (pickChallenge == 1) {
+        tebakAngka(RNG(1, 100));
+    } else if (pickChallenge == 2) {
+        printf("KATA TERSEDIA DALAM 2 BAHASA YAITU: \n");
+        printf("1. English\n");
+        printf("2. Bahasa Indonesia\n");
+        printf("PILIH BAHASA DARI KATA YANG INGIN ANDA TEBAK: ");
+        scanf("%d", &language);
+        printf("SELAMAT DATANG DI WORDL3! ANDA MEMILIKI 6 KESEMPATAN UNTUK MENJAWAB DENGAN BENAR!\n");
+        if (language == 1) { 
+            kataJawaban = listKataInggris[RNG(0,50)];
+        } else if (language == 2) {
+            kataJawaban = listKataIndo[29];
+        }   
+        for (int i = 0; i < 6; i++) {
+            printf("_  _  _  _  _ \n");
+        }
+        wordl3(kataJawaban);
     }
 }

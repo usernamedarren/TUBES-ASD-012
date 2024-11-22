@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "work-challenge.h"
-#include "time.h"
+#include <time.h>
+#include "console.h"
 
 int main () {
     workChallenge();
