@@ -70,7 +70,7 @@ int main()
             }
             else if (strcmp(command,"WORK CHALLENGE")==0||strcmp(command,"work challenge")==0||strcmp(command,"2")==0)
             {
-                printf("Work Challenge\n");
+                workChallenge();
             }
             else if (strcmp(command,"STORE LIST")==0||strcmp(command,"store list")==0||strcmp(command,"3")==0)
             {
