@@ -229,8 +229,7 @@ void input(char *x) {
         idx = 0;
         START();
         while (!IsEOP()) {
-            x[idx] = GetCC();
-            idx++;
+            x[idx++] = GetCC();
             ADV();
         }
         x[idx] = '\0';

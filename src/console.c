@@ -2,20 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void Help(const char *menu) {
+void Help(int menu) {
     printf("====================Help====================\n");
 
-    if (strcmp(menu, "welcome") == 0) {
-        printf("=====[ Welcome Menu Help PURRMART]=====");
+    if (menu == 1) {
+        printf("=====[ Welcome Menu Help PURRMART]=====\n");
         printf("1. START -> Untuk masuk sesi baru\n");
         printf("2. LOAD -> Untuk memulai sesi berdasarkan file konfigurasi\n");
         printf("3. QUIT -> Untuk keluar dari program\n");
-    } else if (strcmp(menu, "login") == 0) {
-        printf("=====[ Login Menu Help PURRMART]=====");
+    } else if (menu == 2) {
+        printf("=====[ Login Menu Help PURRMART]=====\n");
         printf("1. REGISTER -> Untuk melakukan pendaftaran akun baru\n");
         printf("2. LOGIN -> Untuk masuk ke dalam akun dan memulai sesi\n");
         printf("3. QUIT -> Untuk keluar dari program\n");
-    } else if (strcmp(menu, "main") == 0) {
+    } else if (menu == 3) {
         printf("=====[ Menu Help PURRMART]=====\n");
         printf("1. WORK -> Untuk bekerja\n");
         printf("2. WORK CHALLENGE -> Untuk mengerjakan challenge\n");
@@ -23,12 +23,17 @@ void Help(const char *menu) {
         printf("4. STORE REQUEST -> Untuk meminta penambahan barang\n");
         printf("5. STORE SUPPLY -> Untuk menambahkan barang dari permintaan\n");
         printf("6. STORE REMOVE -> Untuk menghapus barang\n");
-        printf("7. LOGOUT -> Untuk keluar dari sesi\n");
-        printf("8. SAVE -> Untuk menyimpan state ke dalam file\n");
-        printf("9. QUIT -> Untuk keluar dari program\n");
-    } else {
-        printf("Menu tidak dikenali. Harap pilih menu yang valid.\n");
+        printf("7. BIO WEAPON -> Untuk membuat bioweapon\n");
+        printf("8. LOGOUT -> Untuk keluar dari sesi\n");
+        printf("9. SAVE -> Untuk menyimpan state ke dalam file\n");
+        printf("10. QUIT -> Untuk keluar dari program\n");
     }
+}
+
+void start(ListBarang *itemlist, ListUser *userlist) {
+    int bisa=1;
+    Load("default.txt", itemlist, userlist, &bisa);
+    printf("File konfigurasi aplikasi berhasil dibaca. PURRMART berhasil dijalankan.\n");
 }
 
 void listStore(ListBarang A)
@@ -50,7 +55,7 @@ void listStore(ListBarang A)
 void requestStore(ListBarang A, Queue *Q) {
     char name[100];
     int idx=0;
-    printf("Nama barang yang diminta: \n");
+    printf("Nama barang yang diminta: ");
     input(name);
     int found = 0;
 
@@ -84,13 +89,13 @@ void supplyStore(ListBarang *A, Queue *Q)
     }
     else
     {
-        printf("Apakah kamu ingin menambahkan %s ke dalam toko (terima/tunda/tolak)\n", HEAD(*Q));
+        printf("Apakah kamu ingin menambahkan %s ke dalam toko (terima/tunda/tolak): ", HEAD(*Q));
         char answer[100];
         input(answer);  
         if (strcmp(answer, "terima") == 0) 
         {
             int price;
-            printf("Harga barang:\n");
+            printf("Harga barang: ");
             inputint(&price);
             Barang newBarang; newBarang.harga = price; strcopy(newBarang.name, HEAD(*Q));
             InsertBarangAt(A, newBarang, A->Neff);
@@ -123,8 +128,8 @@ void removeStore(ListBarang *A)
         printf("Toko kosong, tidak ada yang dapat dihapus\n");
         return;
     }
-
-    printf("Nama barang yang ingin dihapus: \n");
+    listStore(*A);
+    printf("Nama barang yang ingin dihapus: ");
     char name[100];
     input(name); 
     for (int i=0;i<A->Neff;i++)
@@ -251,7 +256,7 @@ char* rna_to_protein (char *string, int idx) {
 
 void bioweapon(Queue *Q,ListBarang A) {
     char dna[100],name[100];
-    printf("Masukkan nama bioweapon: \n");
+    printf("Masukkan nama bioweapon: ");
     input(name);
     for (int i=0;i<A.Neff;i++)
     {
@@ -267,10 +272,10 @@ void bioweapon(Queue *Q,ListBarang A) {
             return;
         }
     }
-    printf("Masukkan DNA: \n");
+    printf("Masukkan DNA: ");
     input(dna);
     dna_to_rna(dna); char kode[strlength(dna)/3+1];
-    printf("Masukkan kode rahasia: \n");
+    printf("Masukkan kode rahasia: ");
     input(kode);
     for (int i = 0; i < 3; i++) {
         char *kode2 = rna_to_protein(dna, i);
@@ -352,11 +357,12 @@ void Save(ListBarang itemlist, ListUser userlist) {
     printf("Data berhasil disimpan ke file %s\n", fullpath);
 }
 
-void Load(char *filename, ListBarang *itemlist, ListUser *userlist) {
+void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
     boolean success;
     STARTFILE(filename, &success);
     if (!success) {
-        //printf("ERROR: Failed to open file %s\n", filename);
+        printf("ERROR: Failed to open file %s\n", filename);
+        *bisa = 0;
         return;
     }
 
@@ -407,6 +413,7 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist) {
         barangBaru.harga = harga;
         strcopy(barangBaru.name, namaBarang);
         InsertBarangAt(itemlist, barangBaru, i);
+        *bisa = 1;
     }
 
 
@@ -456,4 +463,20 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist) {
         //printf("DEBUG: Added user %d: Name = %s, Password = %s, Money = %d\n",i + 1, newUser.name, newUser.password, newUser.money);
     }
 
+}
+
+void quit(ListBarang itemlist, ListUser userlist) {
+    char answer[100];
+    printf("apakah anda ingin menyimpan sesi sekarang? (y/n): ");
+    input(answer);
+    if (strcmp(answer, "y") == 0) {
+        Save(itemlist, userlist);
+    }
+    else if (strcmp(answer, "n") == 0) {
+        printf("Sesi tidak disimpan\n");
+    }
+    else {
+        printf("Input tidak valid\n");
+    }
+    printf("Terima kasih telah bermain PURRMART\n");
 }
