@@ -4,9 +4,6 @@
 #include "boolean.h"
 #include "ADT/mesinkar/mesinkarakter.h"
 #include "ADT/mesinkata/mesinkata.h"
-#include "ADT/queueChar/queueChar.h"
-#include "ADT/array/array.h"
-#include "ADT/str/str.h"
 
 #define LIST_SIZE 50
 #define MAX_ATTEMPTS 6
@@ -14,17 +11,17 @@
 #define KATATEBAKAN_UNDEF '#'
 #define KATAJAWABAN_UNDEF ' '
 
-extern char listKataInggris[LIST_SIZE] [WORD_LENGTH];
-extern char listKataIndo[LIST_SIZE] [WORD_LENGTH];
+extern char *listKataInggris[LIST_SIZE];
+extern char *listKataIndo[LIST_SIZE];
 
 int RNG(int min, int max);
 /* Mengembalikan angka random dengan rentang di antara min dan max */
 
-int charToInt (char c);
-/* Melakukan casting sebuah char menjadi int */
-
-boolean isCharIn (char c, char *kata);
+boolean isCharInKata (char c, char *kata);
 /* Mengecek apakah karakter c ada di dalam kata W */
+
+int idxCharInKata (char c, char *kata); 
+/* Mengembalikan index ketika ditemukannya c di dalam kata */
 
 void wordl3 (char* kataJawaban);
 /* Menjalankan program permainan wordl3, yaitu permainan tebak kata 5 karakter

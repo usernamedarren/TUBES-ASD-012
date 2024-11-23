@@ -1,42 +1,90 @@
-/* File: mesinkarakter.c */
-/* Implementasi Mesin Karakter */
-
 #include "mesinkarakter.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 char currentChar;
 boolean EOP;
 
-static FILE *pita;
+static FILE *pita = NULL;
 static int retval;
 
-void START()
-{
-       /* Mesin siap dioperasikan. Pita disiapkan untuk dibaca.
-          Karakter pertama yang ada pada pita posisinya adalah pada jendela.
-          I.S. : sembarang
-          F.S. : currentChar adalah karakter pertama pada pita. Jika currentChar != MARK maka EOP akan padam (false).
-                 Jika currentChar = MARK maka EOP akan menyala (true) */
-
-       /* Algoritma */
-       pita = stdin;
-       ADV();
+void RESETPITA() {
+    if (pita != NULL) {
+        rewind(pita);
+    }
 }
 
-void ADV()
-{
-       /* Pita dimajukan satu karakter.
-          I.S. : Karakter pada jendela =
-                 currentChar, currentChar != MARK
-          F.S. : currentChar adalah karakter berikutnya dari currentChar yang lama,
-                 currentChar mungkin = MARK.
-                       Jika  currentChar = MARK maka EOP akan menyala (true) */
+void STARTFILE(char *filename, boolean *success) {
+    static char path[200] = "save/";
+    int idx = 0;
+    int newIdx = 5; // Mulai setelah "save/"
 
-       /* Algoritma */
-       retval = fscanf(pita, "%c", &currentChar);
-       EOP = (currentChar == MARK);
-       if (EOP)
-       {
-              fclose(pita);
-       }
+    while (filename[idx] != '\0') {
+        path[newIdx] = filename[idx];
+        newIdx++;
+        idx++;
+    }
+    path[newIdx] = '\0';
+
+    //printf("DEBUG: Attempting to open file at path: %s\n", path);
+
+    pita = fopen(path, "r");
+    if (pita == NULL) {
+        *success = false;
+        //printf("DEBUG: File open failed.\n");
+    } else {
+        *success = true;
+        //printf("DEBUG: File successfully opened.\n");
+        ADV(); // Mulai membaca karakter pertama
+    }
+}
+
+
+void WRITEFILE(char *filename, boolean *success) {
+    static char path[200] = "save/";
+    int idx = 0;
+    int newIdx = 5;
+
+    while (filename[idx] != '\0') {
+        path[newIdx] = filename[idx];
+        newIdx++;
+        idx++;
+    }
+    path[newIdx] = '\0';
+
+
+    pita = fopen(path, "w");
+    if (pita == NULL) {
+        *success = false;
+        //printf("ERROR: Gagal membuka file untuk menulis: %s\n", path);
+    } else {
+        *success = true;
+    }
+}
+
+char GetCC(){
+    return currentChar;
+}
+
+boolean IsEOP(){
+    return currentChar == MARK;
+}
+
+void START() {
+    RESETPITA();
+    pita = stdin;
+
+    EOP = false;
+    ADV();
+}
+
+void ADV() {
+    retval = fscanf(pita, "%c", &currentChar);
+    //printf("DEBUG: Read character '%c'\n", currentChar); // Tambahkan debug di sini
+    if (currentChar == MARK || retval == EOF) {
+        EOP = true;
+        //printf("DEBUG: End of file or MARK reached.\n"); // Tambahkan debug di sini
+    } else {
+        EOP = false;
+    }
 }
