@@ -1,6 +1,8 @@
 #ifndef __ARRAY_ITEMS__
 #define __ARRAY_ITEMS__
 
+#include "../mesinkata/mesinkata.h"
+
 #define boolean unsigned char
 #define true 1
 #define false 0
@@ -33,24 +35,8 @@ int GetBarangCapacity(ListBarang array);
 
 void InsertBarangAt(ListBarang *array, Barang el, int i);
 
-void InsertLastBarang(ListBarang *array, Barang el);
-
-void InsertFirstBarang(ListBarang *array, Barang el);
-
 void DeleteBarangAt(ListBarang *array, int i);
 
-void DeleteLastBarang(ListBarang *array);
 
-void DeleteFirstBarang(ListBarang *array);
-
-void ReverseListBarang(ListBarang *array);
-
-ListBarang CopyListBarang(ListBarang array);
-
-boolean isBarangIn(ListBarang Barang, char *name);
-
-int idxBarang(ListBarang Barang, char *name);
-
-boolean isKataSama(const char *str1, const char *str2);
 
 #endif

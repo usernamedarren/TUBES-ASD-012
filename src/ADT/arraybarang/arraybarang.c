@@ -59,15 +59,6 @@ void InsertBarangAt(ListBarang *array, Barang el, int i) {
     array->Neff++;
 }
 
-void InsertLastBarang(ListBarang *array, Barang el) {
-    int insertAt = LengthListBarang(*array);
-    InsertBarangAt(array, el, insertAt);
-}
-
-
-void InsertFirstBarang(ListBarang *array, Barang el) {
-    InsertBarangAt(array, el, 0);
-}
 
 void DeleteBarangAt(ListBarang *array, int i) {
     int length = LengthListBarang(*array);
@@ -77,71 +68,6 @@ void DeleteBarangAt(ListBarang *array, int i) {
     array->Neff--;
 }
 
-void DeleteLastBarang(ListBarang *array) {
-    int deleteAt = LengthListBarang(*array) - 1;
-    DeleteBarangAt(array, deleteAt);
-}
 
 
-void DeleteFirstBarang(ListBarang *array) {
-    DeleteBarangAt(array, 0);
-}
-
-
-void ReverseListBarang(ListBarang *array) {
-    int length = LengthListBarang(*array);
-    for (int i = 0; i < length / 2; i++) {
-        Barang temp = array->A[i];
-        array->A[i] = array->A[length - i - 1];
-        array->A[length - i - 1] = temp;
-    }
-}
-
-
-ListBarang CopyListBarang(ListBarang array) {
-    ListBarang copy = MakeListBarang();
-    for (int i = 0; i < array.Neff; i++) {
-        InsertLastBarang(&copy, array.A[i]);
-    }
-    return copy;
-}
-
-
-boolean isBarangIn(ListBarang Barang, char *name)
-{
-    boolean found = false;
-    int i = 0;
-    while (!found && i != Barang.Neff)
-    {
-        if (isKataSama(name, Barang.A[i].name))
-        {
-            found = true;
-        }
-        i++;
-    }
-    return found;
-}
-
-int idxOfBarang(ListBarang Barang, char *name)
-{
-    boolean found = false;
-    int i = 0;
-    while (!found && i != Barang.Neff)
-    {
-        if (isKataSama(name, Barang.A[i].name))
-        {
-            found = true;
-        }
-        else
-            i++;
-    }
-    return i;
-}
-boolean isKataSama(const char *str1, const char *str2) {
-    while (*str1 && (*str1 == *str2)) {
-        str1++;
-        str2++;
-    }
-    return *str1 == *str2;
-}
 
