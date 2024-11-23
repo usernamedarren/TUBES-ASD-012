@@ -223,3 +223,42 @@ int strcontains(const char *str1, const char *str2) {
     }
     return 0;
 }
+void input(char *x) {
+    int idx = 0;
+    while (1) {
+        idx = 0;
+        START();
+        while (!IsEOP()) {
+            x[idx] = GetCC();
+            idx++;
+            ADV();
+        }
+        x[idx] = '\0';
+
+        if (strlength(x) == 0) {
+            printf("Input tidak boleh kosong\n");
+        } else {
+            break;
+        }
+    }
+}
+void inputint(int *x) {
+    while (1) {
+        char inputstr[100];
+        int valid = 1;
+
+        input(inputstr);
+        for (int i = 0; i < strlength(inputstr); i++) {
+            if (inputstr[i] < '0' || inputstr[i] > '9') {
+                valid = 0;
+                break;
+            }
+        }
+        if (valid) {
+            *x = atoi(inputstr);
+            break;
+        } else {
+            printf("Input harus berupa angka\n");
+        }
+    }
+}

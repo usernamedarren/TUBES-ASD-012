@@ -15,7 +15,9 @@ void supplyStore(ListBarang *A, Queue *Q);
 void removeStore(ListBarang *A);
 void dna_to_rna(char *string);
 char* rna_to_protein (char *string,int idx);
-void bioweapon(Queue *Q);
+void bioweapon(Queue *Q, ListBarang A);
 void Save(ListBarang itemlist, ListUser userlist);
+
+
 
 #endif

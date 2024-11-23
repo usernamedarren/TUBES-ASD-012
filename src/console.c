@@ -51,20 +51,13 @@ void requestStore(ListBarang A, Queue *Q) {
     char name[100];
     int idx=0;
     printf("Nama barang yang diminta: \n");
-    START();
-    while (!IsEOP()) {
-        name[idx] = GetCC();
-        idx++;
-        ADV();
-    }
-    name[idx] = '\0';    
+    input(name);
     int found = 0;
 
     for (int i = 0; i < A.Neff; i++) {
         if (strcmp(A.A[i].name, name) == 0) {
-            enqueue(Q, A.A[i].name);
             found = 1;
-            printf("Barang dengan nama %s telah dimasukkan ke dalam toko\n", name);
+            printf("Barang dengan nama %s telah berada dalam toko\n", name);
             break;
         }
     }
@@ -93,30 +86,13 @@ void supplyStore(ListBarang *A, Queue *Q)
     {
         printf("Apakah kamu ingin menambahkan %s ke dalam toko (terima/tunda/tolak)\n", HEAD(*Q));
         char answer[100];
-        int idx = 0;
-        START();
-        while (!IsEOP()) {
-            answer[idx] = GetCC();
-            idx++;
-            ADV();
-        }
-        answer[idx] = '\0';   
+        input(answer);  
         if (strcmp(answer, "terima") == 0) 
         {
-            int price = 0;
+            int price;
             printf("Harga barang:\n");
-            START();
-            while (!IsEOP()) {
-                if (GetCC() >= '0' && GetCC() <= '9') {
-                    price = price * 10 + (GetCC() - '0');
-                } else {
-                    break;
-                }
-                ADV();
-            }
-            Barang newBarang; 
-            newBarang.harga = price; 
-            strcopy(newBarang.name, HEAD(*Q));
+            inputint(&price);
+            Barang newBarang; newBarang.harga = price; strcopy(newBarang.name, HEAD(*Q));
             InsertBarangAt(A, newBarang, A->Neff);
             printf("%s dengan harga %d telah ditambahkan ke toko.\n", HEAD(*Q), price);
             dequeue(Q, &answer);
@@ -147,16 +123,10 @@ void removeStore(ListBarang *A)
         printf("Toko kosong, tidak ada yang dapat dihapus\n");
         return;
     }
-    char name[100];
-    int idx=0;
+
     printf("Nama barang yang ingin dihapus: \n");
-    START();
-    while (!IsEOP()) {
-        name[idx] = GetCC();
-        idx++;
-        ADV();
-    }
-    name[idx] = '\0';   
+    char name[100];
+    input(name); 
     for (int i=0;i<A->Neff;i++)
     {
         if (strcmp(A->A[i].name,name)==0)
@@ -279,38 +249,32 @@ char* rna_to_protein (char *string, int idx) {
     return protein;
 }
 
-void bioweapon(Queue *Q) {
+void bioweapon(Queue *Q,ListBarang A) {
     char dna[100],name[100];
     printf("Masukkan nama bioweapon: \n");
-    int idx = 0;
-    START();
-    while (!IsEOP()) {
-        name[idx] = GetCC();
-        idx++;
-        ADV();
+    input(name);
+    for (int i=0;i<A.Neff;i++)
+    {
+        if (strcmp(A.A[i].name,name)==0)
+        {
+            printf("Nama bioweapon telah digunakan\n");
+            return;
+        }
     }
-    name[idx] = '\0';   
+    for (int i = 0; i < LengthQueue(*Q); i++) {
+        if (strcmp(Q->Tab[i], name) == 0) {
+            printf("Nama bioweapon telah digunakan\n");
+            return;
+        }
+    }
     printf("Masukkan DNA: \n");
-    idx = 0;
-    START();
-    while (!IsEOP()) {
-        dna[idx] = GetCC();
-        idx++;
-        ADV();
-    }
-    dna[idx] = '\0'; dna_to_rna(dna); char kode[strlength(dna)/3+1];
+    input(dna);
+    dna_to_rna(dna); char kode[strlength(dna)/3+1];
     printf("Masukkan kode rahasia: \n");
-    idx = 0;
-    START();
-    while (!IsEOP() ) {
-        kode[idx] = GetCC();
-        idx++;
-        ADV();
-    }
-    kode[idx] = '\0';
+    input(kode);
     for (int i = 0; i < 3; i++) {
         char *kode2 = rna_to_protein(dna, i);
-        if (strcontains(kode,kode2)==0) {
+        if (strcontains(kode2,kode)==1) {
             enqueue(Q,name);
             printf("Bioweapon berhasil dimasukkan ke dalam queue\n");
             free(kode2);

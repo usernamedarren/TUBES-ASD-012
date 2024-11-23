@@ -6,9 +6,10 @@ int main()
     CreateQueue(&Q); MakeListBarang(&B);
     Load("default.txt", &B, &U);
     requestStore(B, &Q);
-    bioweapon(&Q);
+    bioweapon(&Q, B);
     supplyStore(&B, &Q);
     supplyStore(&B, &Q);
     listStore(B);
     removeStore(&B);
+    Save(B, U);
 }
