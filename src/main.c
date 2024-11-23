@@ -5,7 +5,6 @@
 int main()
 {
     Queue Q; ListBarang B; ListUser U; CreateQueue(&Q); MakeListBarang(&B); MakeEmpty(&U);
-
     int menu=1;
     while (1)
     {
