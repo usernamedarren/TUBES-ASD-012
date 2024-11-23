@@ -6,6 +6,7 @@
 #include "ADT/kustom/kustom.h"
 #include "ADT/str/str.h"
 
+void Help(const char *menu);
 void listStore(ArrayDin A);
 void requestStore(ArrayDin A, Queue *Q);
 void supplyStore(ArrayDin *A, Queue *Q);
