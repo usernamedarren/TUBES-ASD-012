@@ -2,18 +2,13 @@
 #define __ARRAY_ITEMS__
 
 #include "../mesinkata/mesinkata.h"
+#include "../kustom/kustom.h"
 
 #define boolean unsigned char
 #define true 1
 #define false 0
-#define NMax 100
 
 #define InitialSize 10
-
-typedef struct {
-  char name[NMax];
-  int harga;
-} Barang;
 
 typedef struct {
     Barang *A;

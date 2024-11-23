@@ -66,7 +66,7 @@ int main()
             input(command);
             if (strcmp(command,"WORK")==0||strcmp(command,"work")==0||strcmp(command,"1")==0)
             {
-                printf("Work\n");
+                work();
             }
             else if (strcmp(command,"WORK CHALLENGE")==0||strcmp(command,"work challenge")==0||strcmp(command,"2")==0)
             {

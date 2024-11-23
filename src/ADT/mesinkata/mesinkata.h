@@ -93,7 +93,7 @@ int strlength(char *str);
 
 void strconcat(char *dest, const char *src);
 
-int strcontains(const char *str1, const char *str2);
+boolean strcontains(const char *str1, const char *str2);
 
 void input(char *x);
 

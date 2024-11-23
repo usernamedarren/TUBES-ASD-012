@@ -4,18 +4,13 @@
 #define ARRAY_USER_H
 
 /* Kamus Umum */
+#include "../kustom/kustom.h"
 
 #define IdxMax 100
 #define IdxMin 1
 #define IdxUndef -999 /* indeks tak terdefinisi*/
 
 /* Definisi elemen dan koleksi objek */
-
-typedef struct {
-  char name[100];
-  char password[100];
-  int uang;
-} User;
 
 typedef struct
 	{

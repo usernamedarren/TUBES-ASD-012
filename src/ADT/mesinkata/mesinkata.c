@@ -170,9 +170,10 @@ void printw(Word W, boolean newline) {
     if (newline)
         printf("\n");
 }
+
 int strcmp(const char *str1, const char *str2) {
     int i = 0;
-    while (str1[i] && (str1[i] == str2[i])) {
+    while (str1[i] != '\0' && str1[i] == str2[i]) {
         i++;
     }
     return (unsigned char)str1[i] - (unsigned char)str2[i];
@@ -207,7 +208,7 @@ void strconcat(char *dest, const char *src) {
     dest[i] = '\0';
 }
 
-int strcontains(const char *str1, const char *str2) {
+boolean strcontains(const char *str1, const char *str2) {
     int i = 0;
     int j = 0;
     while (str1[i]) {
@@ -241,6 +242,7 @@ void input(char *x) {
         }
     }
 }
+
 void inputint(int *x) {
     while (1) {
         char inputstr[100];
