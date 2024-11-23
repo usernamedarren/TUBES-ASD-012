@@ -56,7 +56,60 @@ void start(ListBarang *itemlist, ListUser *userlist) {
     printf("File konfigurasi aplikasi berhasil dibaca. PURRMART berhasil dijalankan.\n");
 }
 
-void work() {
+void registeruser(ListUser *userlist) {
+    User newUser;
+    printf("username: ");
+    inputUsernamePassword(newUser.name);
+    printf("password: ");
+    inputUsernamePassword(newUser.password);
+    for (int i = 0; i < userlist->Neff; i++) 
+    {
+        if (strcmp(userlist->TI[i].name, newUser.name) == 0) 
+        {
+            printf("Username sudah terdaftar. Silakan gunakan username lain.\n");
+            return;
+        }
+    }
+    newUser.uang = 0;
+    InsertLastUser(userlist, newUser);
+    printf("Akun dengan username %s berhasil didaftarkan.\n", newUser.name);
+}
+
+void login(ListUser *userlist, int *user_id) {
+    if (*user_id != -1) {
+        printf("Anda masih belum melakukan logout\n");
+        return;
+    }
+    char username[100], password[100];
+    printf("username: ");
+    inputUsernamePassword(username);
+    for (int i = 0; i < userlist->Neff; i++) {
+        if (strcmp(userlist->TI[i].name, username) == 0) {
+            printf("password: ");
+            inputUsernamePassword(password);
+            if (strcmp(userlist->TI[i].password, password) == 0) {
+                printf("Login berhasil. Selamat datang ke PURRMART, %s!\n", username);
+                *user_id = i;
+                return;
+            } else {
+                printf("Password salah. Silakan coba lagi.\n");
+                return;
+            }
+        }
+    }
+    printf("Username tidak ditemukan. Silakan coba lagi.\n");
+}
+
+void logout(int *user_id, ListUser userlist) {
+    if (*user_id == -1) {
+        printf("Anda belum login\n");
+        return;
+    }
+    printf("%s telah logout dari sistem PURRMART. Silakan REGISTER/LOGIN kembali untuk melanjutkan.\n", userlist.TI[*user_id].name);
+    *user_id = -1;
+}
+
+void work(int user_id, ListUser *userlist) {
     // Menampilkan daftar pekerjaan
     printf("Daftar pekerjaan:\n");
     for (int i = 0; i < 5; i++) {
@@ -84,6 +137,7 @@ void work() {
             }
 
             printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pekerjaan[i].pendapatan);
+            userlist->TI[user_id].uang += pekerjaan[i].pendapatan;
             break; // Berhenti mengecek pekerjaan lainnya
         }
     }
@@ -142,7 +196,7 @@ int idxCharInKata (char c, char *kata) {
     return -1;
 }
 
-void wordl3(char *kataJawaban) {
+void wordl3(char *kataJawaban,int user_id, ListUser *userlist) {
     char kataTebakan[WORD_LENGTH + 1]; // space terakhir untuk \0 sebagai null terminator
     char copyKataTebakan[WORD_LENGTH + 1]; // copyKataTebakan dan copyKataJawaban untuk dimodifikasi nantinya
     char copyKataJawaban[WORD_LENGTH + 1];
@@ -155,6 +209,13 @@ void wordl3(char *kataJawaban) {
         printf("MASUKKAN KATA TEBAKAN ANDA: ");
         input(kataTebakan);
         attempts++;
+        int len = strlength(kataTebakan);
+        if (len < WORD_LENGTH) {
+            for (int i = len; i < WORD_LENGTH; i++) {
+                kataTebakan[i] = '-';
+            }
+            kataTebakan[WORD_LENGTH] = '\0';
+        }
         strcopy(copyKataTebakan, kataTebakan);
         strcopy(copyKataJawaban, kataJawaban); // membuat copyKataJawaban yang nantinya akan di modify
         // mengecek karakter yang berada di posisi sama terlebih dahulu
@@ -198,8 +259,9 @@ void wordl3(char *kataJawaban) {
 
         // bila kata tebakan = kata jawaban
         if (isKataEqual(kataTebakan, kataJawaban)) {
-            printf("SELAMAT TEBAKANMU BENAR! +650 RUPIAH TELAH DITAMBAHKAN KE AKUN ANDA!");
+            printf("SELAMAT TEBAKANMU BENAR! +650 RUPIAH TELAH DITAMBAHKAN KE AKUN ANDA!\n");
             tebakanBenar = true;
+            userlist->TI[user_id].uang += 650;
         }
     }
     
@@ -207,11 +269,11 @@ void wordl3(char *kataJawaban) {
     if (tebakanBenar == false) {
         printf("BOO! ANDA KALAH\n");
         printf("JAWABAN YANG TEPAT ADALAH ");
-        printf("%s", kataJawaban);
+        printf("%s\n", kataJawaban);
     }
 }
 
-void tebakAngka(int angkaJawaban) {
+void tebakAngka(int angkaJawaban, int user_id, ListUser *userlist) {
     int angkaTebakan;
     boolean tebakanBenar = false;
     int coinHadiah = 600;
@@ -230,6 +292,7 @@ void tebakAngka(int angkaJawaban) {
         } else { // Tebakan benar
             printf("Tebakanmu benar! +%d rupiah telah ditambahkan ke akun Anda.\n", coinHadiah);
             tebakanBenar = true;
+            userlist->TI[user_id].uang += coinHadiah;
         }
     }
 
@@ -238,7 +301,7 @@ void tebakAngka(int angkaJawaban) {
     }
 }
 
-void workChallenge() {
+void workChallenge(int user_id, ListUser *userlist) {
     char* kataJawaban;
     int bahasa;
     int pickChallenge;
@@ -250,11 +313,20 @@ void workChallenge() {
     printf("2. WORDL399 (biaya main = 500)\n");
     printf("Masukkan challenge yang hendak dimainkan: ");
     inputint(&pickChallenge);
-    printf("\n");
 
     if (pickChallenge == 1) {
-        tebakAngka(RNG(1, 100));
+        if (userlist->TI[user_id].uang < 200) {
+            printf("Uang Anda tidak cukup untuk bermain challenge ini\n");
+            return;
+        }
+        userlist->TI[user_id].uang -= 200;
+        tebakAngka(RNG(1, 100), user_id, userlist);
     } else if (pickChallenge == 2) {
+        if (userlist->TI[user_id].uang < 500) {
+            printf("Uang Anda tidak cukup untuk bermain challenge ini\n");
+            return;
+        }
+        userlist->TI[user_id].uang -= 500;
         printf("KATA TERSEDIA DALAM 2 BAHASA YAITU: \n");
         printf("1. English\n");
         printf("2. Bahasa Indonesia\n");
@@ -270,7 +342,7 @@ void workChallenge() {
         for (int i = 0; i < 6; i++) {
             printf("_  _  _  _  _ \n");
         }
-        wordl3(kataJawaban);
+        wordl3(kataJawaban, user_id, userlist);
     }
 }
 

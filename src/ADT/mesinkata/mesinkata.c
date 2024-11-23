@@ -237,6 +237,7 @@ void input(char *x) {
 
         if (strlength(x) == 0) {
             printf("Input tidak boleh kosong\n");
+            printf("Masukkan input: ");
         } else {
             break;
         }
@@ -260,6 +261,37 @@ void inputint(int *x) {
             break;
         } else {
             printf("Input harus berupa angka\n");
+            printf("Masukkan input: ");
         }
     }
 }
+
+void inputUsernamePassword(char *x)
+{
+    int idx = 0,spasi=0;
+    while (1) {
+        idx = 0;
+        START();
+
+        while (!IsEOP()) {
+            char ch = GetCC();
+            if (ch == ' ') {
+                printf("Input nama/password tidak valid\n");
+                printf("Masukkan input: ");
+                idx = 0; spasi=1;
+                break;
+            }
+            x[idx++] = ch;
+            ADV();
+        }
+        x[idx] = '\0';
+        if (strlength(x)!=0) {
+            break;
+        } else if (strlength(x) == 0 && spasi==0) {
+            printf("Input tidak boleh kosong\n");
+            printf("Masukkan input: ");
+        }
+        spasi=0;
+    }
+}
+

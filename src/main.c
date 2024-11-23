@@ -5,13 +5,13 @@
 int main()
 {
     Queue Q; ListBarang B; ListUser U; CreateQueue(&Q); MakeListBarang(&B); MakeEmpty(&U);
-    int menu=1;
+    int menu=1,user_id=-1;
     while (1)
     {
         Help(menu);
         if (menu==1)
         {
-            printf("Masukkan input: ");
+            printf("Masukkan command (kata langsung/angka): ");
             char command[100];
             input(command);
             if (strcmp(command,"START")==0||strcmp(command,"start")==0||strcmp(command,"1")==0)
@@ -34,43 +34,44 @@ int main()
                 quit(B,U);
                 break;
             } else {
-                printf("Input tidak valid\n");
+                printf("command tidak valid\n");
             }
         }
         else if (menu==2)
         {
-            printf("Masukkan input: ");
+            printf("Masukkan command (kata langsung/angka): ");
             char command[100];
             input(command);
             if (strcmp(command,"REGISTER")==0||strcmp(command,"register")==0||strcmp(command,"1")==0)
             {
-                printf("Register\n");
+                registeruser(&U);
             }
             else if (strcmp(command,"LOGIN")==0||strcmp(command,"login")==0||strcmp(command,"2")==0)
             {
-                printf("Login\n");
-                menu=3;
+                login(&U,&user_id);
+                if (user_id!=-1) menu=3;
+                else menu=2;
             }
             else if (strcmp(command,"QUIT")==0||strcmp(command,"quit")==0||strcmp(command,"3")==0)
             {
                 quit(B,U);
                 break;
             } else {
-                printf("Input tidak valid\n");
+                printf("command tidak valid\n");
             }
         }
         else if (menu==3)
         {
-            printf("Masukkan input: ");
+            printf("Masukkan command (kata langsung/angka): ");
             char command[100];
             input(command);
             if (strcmp(command,"WORK")==0||strcmp(command,"work")==0||strcmp(command,"1")==0)
             {
-                work();
+                work(user_id,&U);
             }
             else if (strcmp(command,"WORK CHALLENGE")==0||strcmp(command,"work challenge")==0||strcmp(command,"2")==0)
             {
-                workChallenge();
+                workChallenge(user_id,&U);
             }
             else if (strcmp(command,"STORE LIST")==0||strcmp(command,"store list")==0||strcmp(command,"3")==0)
             {
@@ -94,7 +95,7 @@ int main()
             }
             else if (strcmp(command,"LOGOUT")==0||strcmp(command,"logout")==0||strcmp(command,"8")==0)
             {
-                printf("Logout\n");
+                logout(&user_id,U);
                 menu=2;
             }
             else if (strcmp(command,"SAVE")==0||strcmp(command,"save")==0||strcmp(command,"9")==0)
@@ -106,7 +107,7 @@ int main()
                 quit(B,U);
                 break;
             } else {
-                printf("Input tidak valid\n");
+                printf("command tidak valid\n");
             }
         }   
     }
