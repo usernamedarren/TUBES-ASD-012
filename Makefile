@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall
-TARGET = output_executable
+TARGET = purrmart
 
 SRCS = src/ADT/arraybarang/arraybarang.c \
        src/ADT/circular_queue/circular_queue.c \
@@ -18,4 +18,4 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
 
 clean:
-	del /Q *.o output_executable
+	del /Q *.o purrmart
