@@ -6,10 +6,26 @@ int main()
 {
     Queue Q; ListBarang B; ListUser U; CreateQueue(&Q); B=MakeListBarang(); MakeEmpty(&U);
     int menu=1,user_id=-1;
+    boolean isCommandHelp = false;
     clearterminal(); 
+    printf("      ___         ___         ___         ___         ___         ___         ___      ___      \n"); 
+    printf("     /\\  \\       /\\__\\       /\\  \\       /\\  \\       /\\__\\       /\\  \\       /\\  \\    /\\  \\     \n");     
+    printf("    /::\\  \\     /:/  /      /::\\  \\     /::\\  \\     /::|  |     /::\\  \\     /::\\  \\   \\:\\  \\    \n");     
+    printf("   /:/\\:\\  \\   /:/  /      /:/\\:\\  \\   /:/\\:\\  \\   /:|:|  |    /:/\\:\\  \\   /:/\\:\\  \\   \\:\\  \\   \n");     
+    printf("  /::\\~\\:\\  \\ /:/  /  ___ /::\\~\\:\\  \\ /::\\~\\:\\  \\ /:/|:|__|__ /::\\~\\:\\  \\ /::\\~\\:\\  \\  /::\\  \\  \n");     
+    printf(" /:/\\:\\ \\:\\__/:/__/  /\\__/:/\\:\\ \\:\\__/:/\\:\\ \\:\\__/:/ |::::\\__/:/\\:\\ \\:\\__/:/\\:\\ \\:\\__\\/:/\\:\\__\\ \n");     
+    printf(" \\/__\\:\\/:/  \\:\\  \\ /:/  \\/_|::\\/:/  \\/_|::\\/:/  \\/__/~~/:/  \\/__\\:\\/:/  \\/_|::\\/:/  /:/  \\/__/ \n");
+    printf("      \\::/  / \\:\\  /:/  /   |:|::/  /   |:|::/  /      /:/  /     \\::/  /   |:|::/  /:/  /      \n");
+    printf("       \\/__/   \\:\\/:/  /    |:|\\/__/    |:|\\/__/      /:/  /      /:/  /    |:|\\/__/\\/__/       \n");
+    printf("                \\::/  /     |:|  |      |:|  |       /:/  /      /:/  /     |:|  |              \n");
+    printf("                 \\/__/       \\|__|       \\|__|       \\/__/       \\/__/       \\|__|              \n");     
+    printf("\n");
+    printf("+ ================================================================================================= +\n");
+    printf("|                 Selamat datang di PURRMART, sebuah sistem jual beli ke Borma!                     |\n");
+    printf("| Ketikkan 'HELP' untuk mendapatkan informasi mengenai apa saja yang bisa Anda lakukan di PURRMART! |\n");
+    printf("+ ================================================================================================= +\n");
     while (1)
     {
-        Help(menu);
         if (menu==1)
         {
             printf("Masukkan command (kata langsung/angka): ");
@@ -37,10 +53,17 @@ int main()
             {
                 quit(B,U);
                 break;
-            } else {
+            } 
+            else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
+            {
+                Help(menu);
+                isCommandHelp = true;
+            } 
+            else {
                 printf("command tidak valid\n");
             }
         }
+
         else if (menu==2)
         {
             printf("Masukkan command (kata langsung/angka): ");
@@ -62,10 +85,17 @@ int main()
             {
                 quit(B,U);
                 break;
-            } else {
+            }
+            else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
+            {
+                Help(menu);
+                isCommandHelp = true;
+            }  
+            else {
                 printf("command tidak valid\n");
             }
         }
+
         else if (menu==3)
         {
             printf("Masukkan command (kata langsung/angka): ");
@@ -112,11 +142,19 @@ int main()
             {
                 quit(B,U);
                 break;
-            } else {
+            } 
+            else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
+            {
+                Help(menu);
+                isCommandHelp = true;
+            } 
+            else {
                 printf("command tidak valid\n");
             }
-        }  
-    wait();
-    clearterminal(); 
+        } 
+        if (!isCommandHelp) {
+            wait();
+            clearterminal(); 
+        }
     }
 }

@@ -14,38 +14,38 @@ Pekerjaan pekerjaan[] = {
 void Help(int menu) {
 
     if (menu == 1) {
-        printf("================================================================================\n");
-        printf("                                 WELCOME TO PURRMART                            \n");
-        printf("================================================================================\n");
-        printf("  1. [START] -> Untuk masuk sesi baru                                          \n");
-        printf("  2. [LOAD]  -> Untuk memulai sesi berdasarkan file konfigurasi                \n");
-        printf("  3. [QUIT]  -> Untuk keluar dari program                                      \n");
-        printf("================================================================================\n");
-        printf("                                 WELCOME TO PURRMART                            \n");
-        printf("================================================================================\n");
+        printf("+ ============================================================================== +\n");
+        printf("|                                 WELCOME TO PURRMART                            |\n");
+        printf("+ ============================================================================== +\n");
+        printf("|  1. [START] -> Untuk masuk sesi baru                                           |\n");
+        printf("|  2. [LOAD]  -> Untuk memulai sesi berdasarkan file konfigurasi                 |\n");
+        printf("|  3. [QUIT]  -> Untuk keluar dari program                                       |\n");
+        printf("+ ============================================================================== +\n");
+        printf("|                                 WELCOME TO PURRMART                            |\n");
+        printf("+ ============================================================================== +\n");
     } else if (menu == 2) {
-        printf("================================================================================\n");
-        printf("                             LOGIN MENU HELP PURRMART                          \n");
-        printf("================================================================================\n");
-        printf("  1. [REGISTER] -> Untuk melakukan pendaftaran akun baru                      \n");
-        printf("  2. [LOGIN]    -> Untuk masuk ke dalam akun dan memulai sesi                 \n");
-        printf("  3. [QUIT]     -> Untuk keluar dari program                                  \n");
-        printf("================================================================================\n");
+        printf("+ ============================================================================== +\n");
+        printf("|                             LOGIN MENU HELP PURRMART                           |\n");
+        printf("+ ============================================================================== +\n");
+        printf("|  1. [REGISTER] -> Untuk melakukan pendaftaran akun baru                        |\n");
+        printf("|  2. [LOGIN]    -> Untuk masuk ke dalam akun dan memulai sesi                   |\n");
+        printf("|  3. [QUIT]     -> Untuk keluar dari program                                    |\n");
+        printf("+ ============================================================================== +\n");
     } else if (menu == 3) {
-        printf("================================================================================\n");
-        printf("                             MAIN MENU HELP PURRMART                           \n");
-        printf("================================================================================\n");
-        printf("  1. [WORK]             -> Untuk bekerja                                      \n");
-        printf("  2. [WORK CHALLENGE]   -> Untuk mengerjakan challenge                        \n");
-        printf("  3. [STORE LIST]       -> Untuk melihat barang-barang di toko                \n");
-        printf("  4. [STORE REQUEST]    -> Untuk meminta penambahan barang                    \n");
-        printf("  5. [STORE SUPPLY]     -> Untuk menambahkan barang dari permintaan           \n");
-        printf("  6. [STORE REMOVE]     -> Untuk menghapus barang                             \n");
-        printf("  7. [BIO WEAPON]       -> Untuk membuat bioweapon                            \n");
-        printf("  8. [LOGOUT]           -> Untuk keluar dari sesi                             \n");
-        printf("  9. [SAVE]             -> Untuk menyimpan state ke dalam file                \n");
-        printf(" 10. [QUIT]             -> Untuk keluar dari program                          \n");
-        printf("================================================================================\n");
+        printf("+ ============================================================================== +\n");
+        printf("|                             MAIN MENU HELP PURRMART                            |\n");
+        printf("+ ============================================================================== +\n");
+        printf("|  1. [WORK]             -> Untuk bekerja                                        |\n");
+        printf("|  2. [WORK CHALLENGE]   -> Untuk mengerjakan challenge                          |\n");
+        printf("|  3. [STORE LIST]       -> Untuk melihat barang-barang di toko                  |\n");
+        printf("|  4. [STORE REQUEST]    -> Untuk meminta penambahan barang                      |\n");
+        printf("| 5. [STORE SUPPLY]     -> Untuk menambahkan barang dari permintaan              |\n");
+        printf("|  6. [STORE REMOVE]     -> Untuk menghapus barang                               |\n");
+        printf("|  7. [BIO WEAPON]       -> Untuk membuat bioweapon                              |\n");
+        printf("|  8. [LOGOUT]           -> Untuk keluar dari sesi                               |\n");
+        printf("|  9. [SAVE]             -> Untuk menyimpan state ke dalam file                  |\n");
+        printf("| 10. [QUIT]             -> Untuk keluar dari program                            |\n");
+        printf("+ ============================================================================== +\n");
     }
 }
 
