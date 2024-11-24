@@ -72,12 +72,12 @@ void registeruser(ListUser *userlist) {
     }
     newUser.uang = 0;
     InsertLastUser(userlist, newUser);
-    printf("Akun dengan username %s berhasil didaftarkan.\n", newUser.name);
+    printf("Akun dengan username %s telah berhasil dibuat. Silakan LOGIN untuk melanjutkan.\n", newUser.name);
 }
 
 void login(ListUser *userlist, int *user_id) {
     if (*user_id != -1) {
-        printf("Anda masih belum melakukan logout\n");
+        printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", userlist->TI[*user_id].name);
         return;
     }
     char username[100], password[100];
@@ -92,7 +92,7 @@ void login(ListUser *userlist, int *user_id) {
                 *user_id = i;
                 return;
             } else {
-                printf("Password salah. Silakan coba lagi.\n");
+                printf("Password salah. Silahkan coba lagi.\n");
                 return;
             }
         }
@@ -102,7 +102,7 @@ void login(ListUser *userlist, int *user_id) {
 
 void logout(int *user_id, ListUser userlist) {
     if (*user_id == -1) {
-        printf("Anda belum login\n");
+        printf("Silahkan LOGIN terlebih dahulu.\n");
         return;
     }
     printf("%s telah logout dari sistem PURRMART. Silakan REGISTER/LOGIN kembali untuk melanjutkan.\n", userlist.TI[*user_id].name);
@@ -360,6 +360,9 @@ void listStore(ListBarang A)
             printf("%d. %s Price: %d\n",i+1,A.A[i].name,A.A[i].harga);
         }
     }
+    char n;
+    printf("Tekan karakter apapun untuk melanjutkan: \n");
+    input (&n);
 }
 
 void requestStore(ListBarang A, Queue *Q) {
@@ -787,4 +790,21 @@ void quit(ListBarang itemlist, ListUser userlist) {
         printf("Input tidak valid\n");
     }
     printf("Terima kasih telah bermain PURRMART\n");
+}
+
+void clearterminal() {
+    system("cls");
+}
+
+void wait() {
+    time_t startTime = time(NULL);
+    time_t endTime = startTime + 4;
+    while (time(NULL) < endTime) {
+        if (time(NULL) > startTime) {
+            printf(". ");
+            fflush(stdout);
+            startTime = time(NULL);
+        }
+    }
+    printf("\n");
 }

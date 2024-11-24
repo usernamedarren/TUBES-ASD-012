@@ -9,7 +9,7 @@ SRCS = src/ADT/arraybarang/arraybarang.c \
        src/ADT/mesinkarakter/mesinkarakter.c \
        src/ADT/arrayuser/arrayuser.c \
        src/console.c
-
+       
 OBJS = $(SRCS:.c=.o)
 
 all: $(TARGET)

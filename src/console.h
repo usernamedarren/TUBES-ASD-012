@@ -80,5 +80,8 @@ Proses: Pemain memiliki 10 (sepuluh) kesempatan untuk menebak angka yang benar. 
 void workChallenge(int user_id, ListUser *userlist);
 /* Pemain membutuhkan uang dengan jumlah tertentu untuk bisa memainkan challenge. Uang yang dibayarkan untuk bermain challenge tidak akan dikembalikan, meskipun pemain kalah dalam permainan. Terdapat dua challenge yang dapat dipilih yaitu tebak angka & wordl3 */
 
+void clearterminal();
+
+void wait ();
 
 #endif

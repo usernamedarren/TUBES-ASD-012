@@ -4,8 +4,9 @@
 
 int main()
 {
-    Queue Q; ListBarang B; ListUser U; CreateQueue(&Q); MakeListBarang(&B); MakeEmpty(&U);
+    Queue Q; ListBarang B; ListUser U; CreateQueue(&Q); B=MakeListBarang(); MakeEmpty(&U);
     int menu=1,user_id=-1;
+    clearterminal(); 
     while (1)
     {
         Help(menu);
@@ -26,7 +27,10 @@ int main()
                 input(filename);
                 int bisa=1;
                 Load(filename,&B,&U,&bisa);
-                if (bisa==1) menu=2;
+                if (bisa==1) 
+                {
+                    menu=2;
+                    printf("File konfigurasi aplikasi berhasil dibaca. PURRMART berhasil dijalankan.\n");}
                 else menu=1;
             }
             else if (strcmp(command,"QUIT")==0||strcmp(command,"quit")==0||strcmp(command,"3")==0)
@@ -49,7 +53,9 @@ int main()
             else if (strcmp(command,"LOGIN")==0||strcmp(command,"login")==0||strcmp(command,"2")==0)
             {
                 login(&U,&user_id);
-                if (user_id!=-1) menu=3;
+                if (user_id!=-1) {
+                    menu=3;
+                }
                 else menu=2;
             }
             else if (strcmp(command,"QUIT")==0||strcmp(command,"quit")==0||strcmp(command,"3")==0)
@@ -109,7 +115,8 @@ int main()
             } else {
                 printf("command tidak valid\n");
             }
-        }   
+        }  
+    wait();
+    clearterminal(); 
     }
-    
 }
