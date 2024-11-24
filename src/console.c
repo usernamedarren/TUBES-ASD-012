@@ -788,7 +788,6 @@ void quit(ListBarang itemlist, ListUser userlist) {
         Save(itemlist, userlist);
     }
     else if (strcmp(answer, "n") == 0) {
-        printf("Sesi tidak disimpan\n");
     }
     else {
         printf("Input tidak valid\n");
