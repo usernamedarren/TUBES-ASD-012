@@ -440,7 +440,11 @@ void removeStore(ListBarang *A)
         printf("Toko kosong, tidak ada yang dapat dihapus\n");
         return;
     }
-    listStore(*A);
+    printf("Daftar barang di toko:\n");
+    for (int i=0;i<A->Neff;i++)
+    {
+        printf("%d. %s\n",i+1,A->A[i].name);
+    }
     printf("Nama barang yang ingin dihapus: ");
     char name[100];
     input(name); 
