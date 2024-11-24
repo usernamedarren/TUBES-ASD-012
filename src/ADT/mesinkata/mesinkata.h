@@ -100,4 +100,5 @@ void input(char *x);
 void inputint (int *x);
 
 void inputUsernamePassword(char *x);
+
 #endif

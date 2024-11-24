@@ -37,4 +37,10 @@ void ADV();
    F.S. : currentChar adalah karakter berikutnya
           Jika mencapai MARK atau EOF, EOP menyala */
 
+void printchar(char c);
+
+void printstring(const char *str);
+
+void printint(int value);
+
 #endif

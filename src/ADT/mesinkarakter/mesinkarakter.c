@@ -17,7 +17,7 @@ void RESETPITA() {
 void STARTFILE(char *filename, boolean *success) {
     static char path[200] = "save/";
     int idx = 0;
-    int newIdx = 5; // Mulai setelah "save/"
+    int newIdx = 5; 
 
     while (filename[idx] != '\0') {
         path[newIdx] = filename[idx];
@@ -26,16 +26,14 @@ void STARTFILE(char *filename, boolean *success) {
     }
     path[newIdx] = '\0';
 
-    //printf("DEBUG: Attempting to open file at path: %s\n", path);
-
     pita = fopen(path, "r");
     if (pita == NULL) {
         *success = false;
-        //printf("DEBUG: File open failed.\n");
+        //printf(File open failed.\n");
     } else {
         *success = true;
-        //printf("DEBUG: File successfully opened.\n");
-        ADV(); // Mulai membaca karakter pertama
+        //printf("File successfully opened.\n");
+        ADV(); 
     }
 }
 
@@ -80,12 +78,30 @@ void START() {
 
 void ADV() {
     retval = fscanf(pita, "%c", &currentChar);
-    //printf("DEBUG: Read character '%c'\n", currentChar); // Tambahkan debug di sini
+    //printf("karakter yang dibaca '%c'\n", currentChar); 
     if (currentChar == MARK || retval == EOF) {
         EOP = true;
-        //printf("DEBUG: End of file or MARK reached.\n"); // Tambahkan debug di sini
+        //printf("End of file or MARK reached.\n"); 
     } else {
         EOP = false;
+    }
+}
+
+void printchar(char c) {
+    if (pita != NULL) {
+        fprintf(pita, "%c", c);
+    }
+}
+
+void printstring(const char *str) {
+    if (pita != NULL) {
+        fprintf(pita, "%s", str);
+    }
+}
+
+void printint(int value) {
+    if (pita != NULL) {
+        fprintf(pita, "%d", value);
     }
 }
 

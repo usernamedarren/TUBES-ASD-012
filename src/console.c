@@ -605,72 +605,64 @@ void bioweapon(Queue *Q,ListBarang A) {
     printf("Kode rahasia tidak ditemukan, maka senjata biologis sudah disabotase, barang ditolak!\n");
 }
 
-void Save(ListBarang itemlist, ListUser userlist) {
-    char filename[100];    
-    char fullpath[150];    
-    int i, idx;            
+void Save(ListBarang daftarBarang, ListUser daftarPengguna) {
+    char namaFile[100];
+    boolean success;
 
-    // Meminta input nama file dari pengguna
+ 
     printf("Masukkan nama file untuk menyimpan (tanpa folder): ");
-    STARTWORD(); 
-    for (i = 0; i < currentWord.Length; i++) {
-        filename[i] = currentWord.TabWord[i]; 
-    }
-    filename[currentWord.Length] = '\0'; 
+    input(namaFile); 
 
-    const char folder[] = "save/";
-    idx = 0;
-    for (i = 0; i < 5; i++) { 
-        fullpath[idx++] = folder[i];
-    }
-    for (i = 0; filename[i] != '\0'; i++) { 
-        fullpath[idx++] = filename[i];
-    }
-    fullpath[idx] = '\0'; 
-
-
-    FILE *file = fopen(fullpath, "w");
-    if (file == NULL) {
-        printf("ERROR: Tidak dapat membuka file %s untuk menyimpan.\n", fullpath);
+    WRITEFILE(namaFile, &success);
+    if (!success) {
+        printf("ERROR: Gagal membuka file untuk menyimpan.\n");
         return;
-    } else {
-        //printf("DEBUG: Berhasil membuka file %s untuk ditulis.\n", fullpath);
     }
 
-    fprintf(file, "%d", LengthListBarang(itemlist)); 
-    if (LengthListBarang(itemlist) > 0) {
-        fprintf(file, "\n"); 
+
+    printint(LengthListBarang(daftarBarang));
+    if (LengthListBarang(daftarBarang) > 0) {
+        printchar('\n'); 
     }
 
-    for (i = 0; i < LengthListBarang(itemlist); i++) {
-        Barang item = GetBarang(itemlist, i);
-        fprintf(file, "%d %s", item.harga, item.name);
-        if (i != LengthListBarang(itemlist) - 1) {
-            fprintf(file, "\n"); 
+
+    for (int i = 0; i < LengthListBarang(daftarBarang); i++) {
+        Barang barang = GetBarang(daftarBarang, i);
+        printint(barang.harga); 
+        printchar(' ');        
+        printstring(barang.name); 
+        if (i != LengthListBarang(daftarBarang) - 1) {
+            printchar('\n'); 
         }
     }
 
-    if (NbElmt(userlist) > 0 && LengthListBarang(itemlist) > 0) {
-        fprintf(file, "\n"); 
+ 
+    if (LengthListBarang(daftarBarang) > 0 && NbElmt(daftarPengguna) > 0) {
+        printchar('\n');
     }
 
 
-    fprintf(file, "%d", NbElmt(userlist)); 
-    if (NbElmt(userlist) > 0) {
-        fprintf(file, "\n"); 
+    printint(NbElmt(daftarPengguna));
+    if (NbElmt(daftarPengguna) > 0) {
+        printchar('\n'); 
     }
 
-    for (i = 0; i < NbElmt(userlist); i++) {
-        User user = GetElmt(userlist, i + 1);
-        fprintf(file, "%d %s %s", user.uang, user.name, user.password);
-        if (i != NbElmt(userlist) - 1) {
-            fprintf(file, "\n"); 
+    // Menulis data pengguna
+    for (int i = 0; i < NbElmt(daftarPengguna); i++) {
+        User pengguna = GetElmt(daftarPengguna, i + 1);
+        printint(pengguna.uang); 
+        printchar(' ');          
+        printstring(pengguna.name); 
+        printchar(' ');          
+        printstring(pengguna.password); 
+        if (i != NbElmt(daftarPengguna) - 1) {
+            printchar('\n'); 
         }
     }
 
-    fclose(file); // Tutup file
-    printf("Data berhasil disimpan ke file %s\n", fullpath);
+    printf("Data berhasil disimpan ke file %s\n", namaFile);
 }
+
 
 void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
     boolean success;
@@ -681,38 +673,31 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
         return;
     }
 
-    // Baca jumlah items
     CopyWord();
-    // printf("DEBUG: Word read for items = ");
-    // printw(currentWord, true);
 
     int jumlahBarang = wordtoInt(currentWord);
     if (jumlahBarang < 0) {
-        // printf("ERROR: Invalid item count\n");
         return;
     }
-    // printf("DEBUG: Total items = %d\n", jumlahBarang);
 
-    // Parsing items
+    //handle barang
     for (int i = 0; i < jumlahBarang; i++) {
         ADV(); 
-        //printf("DEBUG: EOF reached while reading items.\n");
+
         ADVWORD();
         int harga = wordtoInt(currentWord);
         if (harga < 0) {
-            //printf("ERROR: Invalid harga format at item %d\n", i + 1);
             continue;
         }
 
-        // Baca nama item (bisa memiliki spasi)
         ADVWORD();
         char namaBarang[100];
-        int nameLength = 0; // Panjang nama item yang akan ditulis
+        int nameLength = 0; 
         for (int j = 0; j < currentWord.Length; j++) {
             namaBarang[nameLength++] = currentWord.TabWord[j];
         }
 
-        while (!EOP && currentChar != '\n') { // Proses nama hingga akhir baris
+        while (!EOP && currentChar != '\n') { 
             namaBarang[nameLength++] = ' '; 
             ADVWORD();
             for (int j = 0; j < currentWord.Length; j++) {
@@ -720,8 +705,6 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
             }
         }
         namaBarang[nameLength] = '\0'; 
-
-        // printf("DEBUG: Loaded item %d: name = %s, harga = %d\n", i + 1, namaBarang, harga);
 
 
         Barang barangBaru;
@@ -734,28 +717,24 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
 
     ADV();
     CopyWord();
-    // printf("DEBUG: Word read for users = ");
+
 
     int jumlahUser = wordtoInt(currentWord);
     if (jumlahUser < 0) {
-        // printf("ERROR: Invalid user count\n");
         return;
     }
-    // printf("DEBUG: Total users = %d\n", jumlahUser);
 
-
+    //handle user
     for (int i = 0; i < jumlahUser; i++) {
         ADV(); 
 
         if (EOP) { 
-            //printf("DEBUG: EOF reached while parsing user %d\n", i + 1);
             break;
         }
 
         ADVWORD();
         int uang = wordtoInt(currentWord);
         if (uang < 0) {
-            //printf("ERROR: Invalid uang format for user %d\n", i + 1);
             continue;
         }
 
@@ -772,10 +751,7 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
         strcopy(penggunaBaru.name, namapengguna);
         strcopy(penggunaBaru.password, password);
 
-        InsertLastUser(userlist, penggunaBaru); // Pastikan pengguna ditambahkan ke list
-
-        // Debugging tambahan
-        //printf("DEBUG: Added user %d: Name = %s, Password = %s, Money = %d\n",i + 1, newUser.name, newUser.password, newUser.money);
+        InsertLastUser(userlist, penggunaBaru); 
     }
 
 }

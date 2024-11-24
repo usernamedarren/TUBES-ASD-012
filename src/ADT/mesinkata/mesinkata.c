@@ -151,11 +151,9 @@ int wordtoInt(Word word) {
     int result = 0;
     for (int i = 0; i < word.Length; i++) 
     {
-        // Validasi jika karakter bukan angka
         if (word.TabWord[i] < '0' || word.TabWord[i] > '9') 
         {
-            //printf("ERROR: Invalid number format in Word at character '%c'\n", word.TabWord[i]);
-            return -1; // Kembalikan -1 jika ada karakter bukan angka
+            return -1; 
         }
         result = result * 10 + (word.TabWord[i] - '0');
     }
