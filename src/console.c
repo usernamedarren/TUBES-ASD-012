@@ -290,7 +290,6 @@ void work(int user_id, ListUser *userlist) {
 
     char inputwork[100];
 
-    // Menampilkan daftar pekerjaan
     printf("Daftar pekerjaan:\n");
     for (int i = 0; i < 5; i++) {
         printf("%d. ", i + 1);
@@ -299,24 +298,23 @@ void work(int user_id, ListUser *userlist) {
 
     // Memilih pekerjaan
     printf("\nMasukkan pekerjaan yang dipilih: ");
-    input(inputwork); // Menggunakan fungsi input dari mesinkata.c
-    boolean jobOngoing = false; // Tidak ada pekerjaan yang sedang dilakukan
-    for (int i = 0; i < 5; i++) { // Melakukan loop sebanyak jumlah pekerjaan yang ada
+    input(inputwork); 
+    boolean jobOngoing = false; 
+    for (int i = 0; i < 5; i++) { 
         if (strcmp(inputwork, pekerjaan[i].nama)==0) {
-            jobOngoing = true; // Ada pekerjaan yang sedang dilakukan
+            jobOngoing = true; 
             printf("\nAnda sedang bekerja sebagai ");
             printf("%s", pekerjaan[i].nama);
             printf("... harap tunggu.\n");
 
-            time_t startTime = time(NULL); // Waktu pekerjaan dimulai
-            time_t endTime = startTime + pekerjaan[i].durasi; // Waktu pekerjaan berakhir
+            time_t startTime = time(NULL); 
+            time_t endTime = startTime + pekerjaan[i].durasi; 
             while (time(NULL) < endTime) {
-                // Mencontohkan loading
             }
 
             printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pekerjaan[i].pendapatan);
             userlist->TI[user_id].uang += pekerjaan[i].pendapatan;
-            break; // Berhenti mengecek pekerjaan lainnya
+            break; 
         }
     }
     
@@ -330,7 +328,6 @@ void work(int user_id, ListUser *userlist) {
             time_t startTime = time(NULL);
             time_t endTime = startTime + pekerjaan[i].durasi;
             while (time(NULL) < endTime) {
-                // Mencontohkan loading
             }
             printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pekerjaan[i].pendapatan);
             userlist->TI[user_id].uang += pekerjaan[i].pendapatan;

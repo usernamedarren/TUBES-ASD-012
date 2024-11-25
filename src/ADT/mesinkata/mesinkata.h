@@ -55,8 +55,6 @@ void WordToString(Word word, char *str);
 int wordtoInt(Word word);
 
 
-void printw(Word W, boolean newline);
-
 int strcmp(const char *str1, const char *str2);
 
 void strcopy(char *dest, const char *src);
