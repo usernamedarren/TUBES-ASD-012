@@ -88,14 +88,23 @@ void Help(int menu) {
 void quit(ListBarang itemlist, ListUser userlist) {
     char answer[100];
     printf("apakah anda ingin menyimpan sesi sekarang? (y/n): ");
-    input(answer);
+    while (1)
+    {
+        input(answer);
+        if (isKataEqual(answer, "y") || isKataEqual(answer, "n"))
+        {
+            break;
+        }
+        else
+        {
+            printf("Input tidak valid\n");
+            printf("apakah anda ingin menyimpan sesi sekarang? (y/n): ");
+        }
+    }
     if (isKataEqual(answer, "y")) {
         Save(itemlist, userlist);
     }
     else if (isKataEqual(answer, "n")) {
-    }
-    else {
-        printf("Input tidak valid\n");
     }
     printf("Terima kasih telah bermain PURRMART\n");
 }
