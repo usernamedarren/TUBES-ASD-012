@@ -216,12 +216,12 @@ boolean strcontains(const char *str1, const char *str2) {
                 j++;
             }
             if (str2[j]=='\0') {
-                return -1;
+                return 0;
             }
         }
         i++;
     }
-    return 0;
+    return -1;
 }
 void input(char *x) {
     int idx = 0;
@@ -236,7 +236,7 @@ void input(char *x) {
 
         if (strlength(x) == 0) {
             printf("Input tidak boleh kosong\n");
-            printf("Masukkan input: ");
+            printf("Masukkan ulang: ");
         } else {
             break;
         }
@@ -260,7 +260,7 @@ void inputint(int *x) {
             break;
         } else {
             printf("Input harus berupa angka\n");
-            printf("Masukkan input: ");
+            printf("Masukkan ulang: ");
         }
     }
 }
@@ -276,7 +276,7 @@ void inputUsernamePassword(char *x)
             char ch = GetCC();
             if (ch == ' ') {
                 printf("Input nama/password tidak valid\n");
-                printf("Masukkan input: ");
+                printf("Masukkan ulang: ");
                 idx = 0; spasi=1;
                 break;
             }
@@ -288,7 +288,7 @@ void inputUsernamePassword(char *x)
             break;
         } else if (strlength(x) == 0 && spasi==0) {
             printf("Input tidak boleh kosong\n");
-            printf("Masukkan input: ");
+            printf("Masukkan ulang: ");
         }
         spasi=0;
     }

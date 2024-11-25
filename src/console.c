@@ -319,7 +319,7 @@ void work(int user_id, ListUser *userlist) {
             break; // Berhenti mengecek pekerjaan lainnya
         }
     }
-    
+
     for (int i = 0; i < 5; i++) {
         if (inputwork[0] == '1' + i) {
             jobOngoing = true;
@@ -769,7 +769,7 @@ void bioweapon(Queue *Q,ListBarang A) {
     input(kode);
     for (int i = 0; i < 3; i++) {
         char *kode2 = rna_to_protein(dna, i);
-        if (strcontains(kode2,kode)==1) {
+        if (strcontains(kode2,kode)==0) {
             enqueue(Q,name);
             printf("Bioweapon berhasil dimasukkan ke dalam queue\n");
             free(kode2);
