@@ -102,7 +102,11 @@ void quit(ListBarang itemlist, ListUser userlist) {
 
 /* CLEAR TERMINAL */
 void clearterminal() {
+#ifdef _WIN32
     system("cls");
+#else
+    system("clear");
+#endif
 }
 
 /* WAIT */
