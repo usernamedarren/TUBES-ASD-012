@@ -29,10 +29,8 @@ void STARTFILE(char *filename, boolean *success) {
     pita = fopen(path, "r");
     if (pita == NULL) {
         *success = false;
-        //printf(File open failed.\n");
     } else {
         *success = true;
-        //printf("File successfully opened.\n");
         ADV(); 
     }
 }
@@ -54,7 +52,6 @@ void WRITEFILE(char *filename, boolean *success) {
     pita = fopen(path, "w");
     if (pita == NULL) {
         *success = false;
-        //printf("ERROR: Gagal membuka file untuk menulis: %s\n", path);
     } else {
         *success = true;
     }
@@ -78,10 +75,8 @@ void START() {
 
 void ADV() {
     retval = fscanf(pita, "%c", &currentChar);
-    //printf("karakter yang dibaca '%c'\n", currentChar); 
     if (currentChar == MARK || retval == EOF) {
         EOP = true;
-        //printf("End of file or MARK reached.\n"); 
     } else {
         EOP = false;
     }
