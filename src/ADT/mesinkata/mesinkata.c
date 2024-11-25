@@ -160,14 +160,7 @@ int wordtoInt(Word word) {
     return result;
 }
 
-void printw(Word W, boolean newline) {
-    for (int i = 0; i < W.Length; i++)
-    {
-        printf("%c", W.TabWord[i]);
-    }
-    if (newline)
-        printf("\n");
-}
+
 
 int strcmp(const char *str1, const char *str2) {
     for (int i = 0; str1[i] || str2[i]; i++) {

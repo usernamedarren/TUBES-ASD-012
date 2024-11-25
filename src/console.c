@@ -29,6 +29,14 @@ char *listKataIndo[LIST_SIZE] = {
     "GITAR", "IRAMA", "HABIS", "ANGIN", "BELAH"
 };
 
+Pekerjaan pekerjaan[] = {
+    {"Evil Lab Assistant", 100, 14},
+    {"OWCA Hiring Manager", 4200, 21},
+    {"Cikapundunginator Caretaker", 7000, 30},
+    {"Mewing Specialist", 10000, 22},
+    {"Inator Connoisseur", 997, 15}
+};
+
 /* ************************************************************************************************** */
 /* ****************************************** GENERAL *********************************************** */
 /* ************************************************************************************************** */
@@ -278,19 +286,11 @@ void logout(int *user_id, ListUser userlist) {
 }
 
 /* WORK */
-Pekerjaan pekerjaan[] = {
-    {"Evil Lab Assistant", 100, 14},
-    {"OWCA Hiring Manager", 4200, 21},
-    {"Cikapundunginator Caretaker", 7000, 30},
-    {"Mewing Specialist", 10000, 22},
-    {"Inator Connoisseur", 997, 15}
-};
 
 void work(int user_id, ListUser *userlist) {
 
     char inputwork[100];
 
-    // Menampilkan daftar pekerjaan
     printf("Daftar pekerjaan:\n");
     for (int i = 0; i < 5; i++) {
         printf("%d. ", i + 1);
@@ -299,24 +299,23 @@ void work(int user_id, ListUser *userlist) {
 
     // Memilih pekerjaan
     printf("\nMasukkan pekerjaan yang dipilih: ");
-    input(inputwork); // Menggunakan fungsi input dari mesinkata.c
-    boolean jobOngoing = false; // Tidak ada pekerjaan yang sedang dilakukan
-    for (int i = 0; i < 5; i++) { // Melakukan loop sebanyak jumlah pekerjaan yang ada
+    input(inputwork); 
+    boolean jobOngoing = false; 
+    for (int i = 0; i < 5; i++) { 
         if (strcmp(inputwork, pekerjaan[i].nama)==0) {
-            jobOngoing = true; // Ada pekerjaan yang sedang dilakukan
+            jobOngoing = true; 
             printf("\nAnda sedang bekerja sebagai ");
             printf("%s", pekerjaan[i].nama);
             printf("... harap tunggu.\n");
 
-            time_t startTime = time(NULL); // Waktu pekerjaan dimulai
-            time_t endTime = startTime + pekerjaan[i].durasi; // Waktu pekerjaan berakhir
+            time_t startTime = time(NULL); 
+            time_t endTime = startTime + pekerjaan[i].durasi; 
             while (time(NULL) < endTime) {
-                // Mencontohkan loading
             }
 
             printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pekerjaan[i].pendapatan);
             userlist->TI[user_id].uang += pekerjaan[i].pendapatan;
-            break; // Berhenti mengecek pekerjaan lainnya
+            break; 
         }
     }
 
@@ -330,7 +329,6 @@ void work(int user_id, ListUser *userlist) {
             time_t startTime = time(NULL);
             time_t endTime = startTime + pekerjaan[i].durasi;
             while (time(NULL) < endTime) {
-                // Mencontohkan loading
             }
             printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pekerjaan[i].pendapatan);
             userlist->TI[user_id].uang += pekerjaan[i].pendapatan;
@@ -378,60 +376,64 @@ void wordl3(char *kataJawaban, int user_id, ListUser *userlist) {
     while (tebakanBenar == false && attempts < 6) {
         printf("MASUKKAN KATA TEBAKAN ANDA: ");
         input(kataTebakan);
-        attempts++;
-        int len = strlength(kataTebakan);
-        if (len < WORD_LENGTH) {
-            for (int i = len; i < WORD_LENGTH; i++) {
-                kataTebakan[i] = '-';
+        if (strlength(kataTebakan) == 5) {
+            attempts++;
+            int len = strlength(kataTebakan);
+            if (len < WORD_LENGTH) {
+                for (int i = len; i < WORD_LENGTH; i++) {
+                    kataTebakan[i] = '-';
+                }
+                kataTebakan[WORD_LENGTH] = '\0';
             }
-            kataTebakan[WORD_LENGTH] = '\0';
-        }
-        strcopy(copyKataTebakan, kataTebakan);
-        strcopy(copyKataJawaban, kataJawaban); // membuat copyKataJawaban yang nantinya akan di modify
-        // mengecek karakter yang berada di posisi sama terlebih dahulu
-        for (int i = 0; copyKataTebakan[i] != '\0'; i++) {
-            if (copyKataJawaban[i] == copyKataTebakan[i]) {
-                currentResult[i * 3] = kataTebakan[i];
-                currentResult[i * 3 + 1] = ' ';
-                currentResult[i * 3 + 2] = ' '; 
-                copyKataTebakan[i] = KATATEBAKAN_UNDEF;
-                copyKataJawaban[i] = KATAJAWABAN_UNDEF;
+            strcopy(copyKataTebakan, kataTebakan);
+            strcopy(copyKataJawaban, kataJawaban); // membuat copyKataJawaban yang nantinya akan di modify
+            // mengecek karakter yang berada di posisi sama terlebih dahulu
+            for (int i = 0; copyKataTebakan[i] != '\0'; i++) {
+                if (copyKataJawaban[i] == copyKataTebakan[i]) {
+                    currentResult[i * 3] = kataTebakan[i];
+                    currentResult[i * 3 + 1] = ' ';
+                    currentResult[i * 3 + 2] = ' '; 
+                    copyKataTebakan[i] = KATATEBAKAN_UNDEF;
+                    copyKataJawaban[i] = KATAJAWABAN_UNDEF;
+                }
             }
-        }
 
-        for (int i = 0; copyKataTebakan[i] != '\0'; i++) {
-            // mengecek karakter yang ada di kata jawaban namun berada di posisi berbeda
-            if (isCharInKata(copyKataTebakan[i], copyKataJawaban)) {
-                currentResult[i * 3] = copyKataTebakan[i];
-                currentResult[i * 3 + 1] = '*';
-                currentResult[i * 3 + 2] = ' ';
-                copyKataJawaban[idxCharInKata(copyKataTebakan[i], kataJawaban)] = KATAJAWABAN_UNDEF;
+            for (int i = 0; copyKataTebakan[i] != '\0'; i++) {
+                // mengecek karakter yang ada di kata jawaban namun berada di posisi berbeda
+                if (isCharInKata(copyKataTebakan[i], copyKataJawaban)) {
+                    currentResult[i * 3] = copyKataTebakan[i];
+                    currentResult[i * 3 + 1] = '*';
+                    currentResult[i * 3 + 2] = ' ';
+                    copyKataJawaban[idxCharInKata(copyKataTebakan[i], kataJawaban)] = KATAJAWABAN_UNDEF;
 
-            // karakter tidak berada di kata jawaban
-            } else if (!isCharInKata(copyKataTebakan[i], copyKataJawaban) && copyKataTebakan[i] != KATATEBAKAN_UNDEF) { 
-                currentResult[i * 3] = copyKataTebakan[i];
-                currentResult[i * 3 + 1] = '%';
-                currentResult[i * 3 + 2] = ' ';
+                // karakter tidak berada di kata jawaban
+                } else if (!isCharInKata(copyKataTebakan[i], copyKataJawaban) && copyKataTebakan[i] != KATATEBAKAN_UNDEF) { 
+                    currentResult[i * 3] = copyKataTebakan[i];
+                    currentResult[i * 3 + 1] = '%';
+                    currentResult[i * 3 + 2] = ' ';
+                }
             }
-        }
 
-        currentResult[WORD_LENGTH * 3] = '\0';
-        strcopy(results[attempts-1], currentResult); // mengisi hasil dari percobaan saat ini ke hasil semua percobaan
+            currentResult[WORD_LENGTH * 3] = '\0';
+            strcopy(results[attempts-1], currentResult); // mengisi hasil dari percobaan saat ini ke hasil semua percobaan
 
-        // untuk memberikan display WORDL399
-        for (int i = 0; i < MAX_ATTEMPTS; i++) {
-            if (i < attempts) {
-                printf("%s\n", results[i]);
-            } else {
-                printf("_  _  _  _  _\n");
+            // untuk memberikan display WORDL399
+            for (int i = 0; i < MAX_ATTEMPTS; i++) {
+                if (i < attempts) {
+                    printf("%s\n", results[i]);
+                } else {
+                    printf("_  _  _  _  _\n");
+                }
             }
-        }
 
-        // bila kata tebakan = kata jawaban
-        if (isKataEqual(kataTebakan, kataJawaban)) {
-            printf("SELAMAT TEBAKANMU BENAR! +900 RUPIAH TELAH DITAMBAHKAN KE AKUN ANDA!\n");
-            tebakanBenar = true;
-            userlist->TI[user_id].uang += 900;
+            // bila kata tebakan = kata jawaban
+            if (isKataEqual(kataTebakan, kataJawaban)) {
+                printf("SELAMAT TEBAKANMU BENAR! +900 RUPIAH TELAH DITAMBAHKAN KE AKUN ANDA!\n");
+                tebakanBenar = true;
+                userlist->TI[user_id].uang += 900;
+            }
+        } else {
+            printf("Input yang Anda masukkan salah, kata hanya terdiri dari 5 karakter\n");
         }
     }
     
