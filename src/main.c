@@ -8,6 +8,7 @@ int main()
     int menu=1,user_id=-1;
     boolean isCommandHelp = false;
     int helpInstructed = 4;         
+    clearterminal();
     printf("+ ================================================================================================= +\n");
     printf("|                 Selamat datang di PURRMART, sebuah sistem jual beli ke Borma!                     |\n");
     printf("+ ================================================================================================= +\n");
@@ -54,7 +55,7 @@ int main()
             }
             else if (isKataEqual(command,"QUIT") || isKataEqual(command,"quit") || isKataEqual(command,"3"))
             {
-                quit(B,U);
+                printf("terima kasih telah bermain PURRMART\n");
                 break;
             } 
             else if (isKataEqual(command,"HELP") || isKataEqual(command,"help")) 
