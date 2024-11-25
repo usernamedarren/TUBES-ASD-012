@@ -29,6 +29,14 @@ char *listKataIndo[LIST_SIZE] = {
     "GITAR", "IRAMA", "HABIS", "ANGIN", "BELAH"
 };
 
+Pekerjaan pekerjaan[] = {
+    {"Evil Lab Assistant", 100, 14},
+    {"OWCA Hiring Manager", 4200, 21},
+    {"Cikapundunginator Caretaker", 7000, 30},
+    {"Mewing Specialist", 10000, 22},
+    {"Inator Connoisseur", 997, 15}
+};
+
 /* ************************************************************************************************** */
 /* ****************************************** GENERAL *********************************************** */
 /* ************************************************************************************************** */
@@ -278,13 +286,6 @@ void logout(int *user_id, ListUser userlist) {
 }
 
 /* WORK */
-Pekerjaan pekerjaan[] = {
-    {"Evil Lab Assistant", 100, 14},
-    {"OWCA Hiring Manager", 4200, 21},
-    {"Cikapundunginator Caretaker", 7000, 30},
-    {"Mewing Specialist", 10000, 22},
-    {"Inator Connoisseur", 997, 15}
-};
 
 void work(int user_id, ListUser *userlist) {
 
