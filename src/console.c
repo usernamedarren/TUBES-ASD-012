@@ -84,10 +84,10 @@ void quit(ListBarang itemlist, ListUser userlist) {
     char answer[100];
     printf("apakah anda ingin menyimpan sesi sekarang? (y/n): ");
     input(answer);
-    if (strcmp(answer, "y") == 0) {
+    if (isKataEqual(answer, "y")) {
         Save(itemlist, userlist);
     }
-    else if (strcmp(answer, "n") == 0) {
+    else if (isKataEqual(answer, "n")) {
     }
     else {
         printf("Input tidak valid\n");
@@ -233,7 +233,7 @@ void registeruser(ListUser *userlist) {
     inputUsernamePassword(newUser.password);
     for (int i = 0; i < userlist->Neff; i++) 
     {
-        if (strcmp(userlist->TI[i].name, newUser.name) == 0) 
+        if (isKataEqual(userlist->TI[i].name, newUser.name)) 
         {
             printf("Username sudah terdaftar. Silakan gunakan username lain.\n");
             return;
@@ -254,10 +254,10 @@ void login(ListUser *userlist, int *user_id) {
     printf("username: ");
     inputUsernamePassword(username);
     for (int i = 0; i < userlist->Neff; i++) {
-        if (strcmp(userlist->TI[i].name, username) == 0) {
+        if (isKataEqual(userlist->TI[i].name, username)) {
             printf("password: ");
             inputUsernamePassword(password);
-            if (strcmp(userlist->TI[i].password, password) == 0) {
+            if (isKataEqual(userlist->TI[i].password, password)) {
                 printf("Login berhasil. Selamat datang ke PURRMART, %s!\n", username);
                 *user_id = i;
                 return;
@@ -302,7 +302,7 @@ void work(int user_id, ListUser *userlist) {
     input(inputwork); 
     boolean jobOngoing = false; 
     for (int i = 0; i < 5; i++) { 
-        if (strcmp(inputwork, pekerjaan[i].nama)==0) {
+        if (isKataEqual(inputwork, pekerjaan[i].nama)) {
             jobOngoing = true; 
             printf("\nAnda sedang bekerja sebagai ");
             printf("%s", pekerjaan[i].nama);
@@ -546,7 +546,7 @@ void requestStore(ListBarang A, Queue *Q) {
     int found = 0;
 
     for (int i = 0; i < A.Neff; i++) {
-        if (strcmp(A.A[i].name, name) == 0) {
+        if (isKataEqual(A.A[i].name, name) ) {
             found = 1;
             printf("Barang dengan nama %s telah berada dalam toko\n", name);
             break;
@@ -554,7 +554,7 @@ void requestStore(ListBarang A, Queue *Q) {
     }
 
     for (int i = 0; i < LengthQueue(*Q); i++) {
-        if (strcmp(Q->Tab[i], name) == 0) {
+        if (isKataEqual(Q->Tab[i], name)) {
             found = 1;
             printf("Barang dengan nama %s telah didalam queue\n", name);
             break;
@@ -579,7 +579,7 @@ void supplyStore(ListBarang *A, Queue *Q)
         printf("Apakah kamu ingin menambahkan %s ke dalam toko (terima/tunda/tolak): ", HEAD(*Q));
         char answer[100];
         input(answer);  
-        if (strcmp(answer, "terima") == 0) 
+        if (isKataEqual(answer, "terima")) 
         {
             int price;
             printf("Harga barang: ");
@@ -589,13 +589,13 @@ void supplyStore(ListBarang *A, Queue *Q)
             printf("%s dengan harga %d telah ditambahkan ke toko.\n", HEAD(*Q), price);
             dequeue(Q, &answer);
         }
-        else if (strcmp(answer, "tunda") == 0)
+        else if (isKataEqual(answer, "tunda"))
         {
             printf("%s telah ditunda ke antrian\n", HEAD(*Q));
             dequeue(Q, &answer);
             enqueue(Q, answer);
         }
-        else if (strcmp(answer, "tolak") == 0)
+        else if (isKataEqual(answer, "tolak"))
         {
             printf("%s telah dihapuskan dari antrian\n", HEAD(*Q));
             dequeue(Q, &answer);
@@ -625,7 +625,7 @@ void removeStore(ListBarang *A)
     input(name); 
     for (int i=0;i<A->Neff;i++)
     {
-        if (strcmp(A->A[i].name,name)==0)
+        if (isKataEqual(A->A[i].name,name))
         {
             DeleteBarangAt(A,i);
             printf("Barang dengan nama %s telah dihapus\n",name);
@@ -752,14 +752,14 @@ void bioweapon(Queue *Q,ListBarang A) {
     input(name);
     for (int i=0;i<A.Neff;i++)
     {
-        if (strcmp(A.A[i].name,name)==0)
+        if (isKataEqual(A.A[i].name,name))
         {
             printf("Nama bioweapon telah digunakan\n");
             return;
         }
     }
     for (int i = 0; i < LengthQueue(*Q); i++) {
-        if (strcmp(Q->Tab[i], name) == 0) {
+        if (isKataEqual(Q->Tab[i], name)) {
             printf("Nama bioweapon telah digunakan\n");
             return;
         }
@@ -771,7 +771,7 @@ void bioweapon(Queue *Q,ListBarang A) {
     input(kode);
     for (int i = 0; i < 3; i++) {
         char *kode2 = rna_to_protein(dna, i);
-        if (strcontains(kode2,kode)==0) {
+        if (strcontains(kode2,kode)) {
             enqueue(Q,name);
             printf("Bioweapon berhasil dimasukkan ke dalam queue\n");
             free(kode2);

@@ -162,22 +162,13 @@ int wordtoInt(Word word) {
 
 
 
-int strcmp(const char *str1, const char *str2) {
-    for (int i = 0; str1[i] || str2[i]; i++) {
-        if (str1[i] != str2[i]) {
-            return -1;
-        }
-    }
-    return 0;
-}
-
-void strcopy(char *dest, const char *src) {
+void strcopy(char *str1, const char *str2) {
     int i = 0;
-    while (src[i] != '\0') {
-        dest[i] = src[i];
+    while (str2[i] != '\0') {
+        str1[i] = str2[i];
         i++;
     }
-    dest[i] = '\0';
+    str1[i] = '\0';
 }
 
 
@@ -189,15 +180,15 @@ int strlength(char *str) {
     return length;
 }
 
-void strconcat(char *dest, const char *src) {
-    int i = strlength(dest); 
+void strconcat(char *str1, const char *str2) {
+    int i = strlength(str1); 
     int j = 0;
-    while (src[j] != '\0') {
-        dest[i] = src[j];
+    while (str2[j] != '\0') {
+        str1[i] = str2[j];
         i++;
         j++;
     }
-    dest[i] = '\0';
+    str1[i] = '\0';
 }
 
 boolean strcontains(const char *str1, const char *str2) {
@@ -209,12 +200,12 @@ boolean strcontains(const char *str1, const char *str2) {
                 j++;
             }
             if (str2[j]=='\0') {
-                return 0;
+                return 1;
             }
         }
         i++;
     }
-    return -1;
+    return 0;
 }
 void input(char *x) {
     int idx = 0;
