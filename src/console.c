@@ -378,13 +378,6 @@ void wordl3(char *kataJawaban, int user_id, ListUser *userlist) {
         input(kataTebakan);
         if (strlength(kataTebakan) == 5) {
             attempts++;
-            int len = strlength(kataTebakan);
-            if (len < WORD_LENGTH) {
-                for (int i = len; i < WORD_LENGTH; i++) {
-                    kataTebakan[i] = '-';
-                }
-                kataTebakan[WORD_LENGTH] = '\0';
-            }
             strcopy(copyKataTebakan, kataTebakan);
             strcopy(copyKataJawaban, kataJawaban); // membuat copyKataJawaban yang nantinya akan di modify
             // mengecek karakter yang berada di posisi sama terlebih dahulu
