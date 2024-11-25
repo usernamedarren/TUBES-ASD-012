@@ -27,6 +27,7 @@ int main()
     printf("+ ================================================================================================= +\n");
     while (1)
     {
+        isCommandHelp = false;
         if (menu==1)
         {
             printf("\n");
@@ -58,6 +59,7 @@ int main()
             } 
             else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
             {
+                clearterminal();
                 Help(menu);
                 isCommandHelp = true;
             } 
@@ -91,6 +93,7 @@ int main()
             }
             else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
             {
+                clearterminal();
                 Help(menu);
                 isCommandHelp = true;
             }  
@@ -149,6 +152,7 @@ int main()
             } 
             else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
             {
+                clearterminal();
                 Help(menu);
                 isCommandHelp = true;
             } 
