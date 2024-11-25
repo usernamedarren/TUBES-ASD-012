@@ -7,18 +7,19 @@ int main()
     Queue Q; ListBarang B; ListUser U; CreateQueue(&Q); B=MakeListBarang(); MakeEmpty(&U);
     int menu=1,user_id=-1;
     boolean isCommandHelp = false;
-    clearterminal(); 
-    printf("      ___         ___         ___         ___         ___         ___         ___      ___      \n"); 
-    printf("     /\\  \\       /\\__\\       /\\  \\       /\\  \\       /\\__\\       /\\  \\       /\\  \\    /\\  \\     \n");     
-    printf("    /::\\  \\     /:/  /      /::\\  \\     /::\\  \\     /::|  |     /::\\  \\     /::\\  \\   \\:\\  \\    \n");     
-    printf("   /:/\\:\\  \\   /:/  /      /:/\\:\\  \\   /:/\\:\\  \\   /:|:|  |    /:/\\:\\  \\   /:/\\:\\  \\   \\:\\  \\   \n");     
-    printf("  /::\\~\\:\\  \\ /:/  /  ___ /::\\~\\:\\  \\ /::\\~\\:\\  \\ /:/|:|__|__ /::\\~\\:\\  \\ /::\\~\\:\\  \\  /::\\  \\  \n");     
-    printf(" /:/\\:\\ \\:\\__/:/__/  /\\__/:/\\:\\ \\:\\__/:/\\:\\ \\:\\__/:/ |::::\\__/:/\\:\\ \\:\\__/:/\\:\\ \\:\\__\\/:/\\:\\__\\ \n");     
-    printf(" \\/__\\:\\/:/  \\:\\  \\ /:/  \\/_|::\\/:/  \\/_|::\\/:/  \\/__/~~/:/  \\/__\\:\\/:/  \\/_|::\\/:/  /:/  \\/__/ \n");
-    printf("      \\::/  / \\:\\  /:/  /   |:|::/  /   |:|::/  /      /:/  /     \\::/  /   |:|::/  /:/  /      \n");
-    printf("       \\/__/   \\:\\/:/  /    |:|\\/__/    |:|\\/__/      /:/  /      /:/  /    |:|\\/__/\\/__/       \n");
-    printf("                \\::/  /     |:|  |      |:|  |       /:/  /      /:/  /     |:|  |              \n");
-    printf("                 \\/__/       \\|__|       \\|__|       \\/__/       \\/__/       \\|__|              \n");     
+    clearterminal();                
+
+    printf("      ___         ___           ___           ___           ___           ___           ___            ___                            \n"); 
+    printf("     /  /\\       /__/\\         /  /\\         /  /\\         /__/\\         /  /\\         /  /\\          /  /\\                   \n");     
+    printf("    /  /::\\      \\  \\:\\       /  /::\\       /  /::\\       |  |::\\       /  /::\\       /  /::\\        /  / /                  \n");     
+    printf("   /  /:/\\:\\      \\  \\:\\     /  /:/\\:\\     /  /:/\\:\\      |  |:|:\\     /  /:/\\:\\     /  /:/\\:\\      /  /:/              \n");     
+    printf("  /  /:/~/:/  ___  \\  \\:\\   /  /:/~/:/    /  /:/~/:/    __|__|:|\\:\\   /  /:/~/::\\   /  /:/~/:/     /  /:/                       \n");     
+    printf(" /__/:/ /:/  /__/\\  \\__\\:\\ /__/:/ /:/___ /__/:/ /:/___ /__/::::| \\:\\ /__/:/ /:/\\:\\ /__/:/ /:/___  /  /::\\                    \n");     
+    printf(" \\  \\:\\/:/   \\  \\:\\ /  /:/ \\  \\:\\/:::::/ \\  \\:\\/:::::/ \\  \\:\\~~\\__\\/ \\  \\:\\/:/__\\/ \\  \\:\\/:::::/ /__/:/\\:\\  \n");
+    printf("  \\  \\::/     \\  \\:\\  /:/   \\  \\::/~~~~   \\  \\::/~~~~   \\  \\:\\        \\  \\::/       \\  \\::/~~~~  \\__\\/  \\:\\       \n");
+    printf("   \\  \\:\\      \\  \\:\\/:/     \\  \\:\\        \\  \\:\\        \\  \\:\\        \\  \\:\\        \\  \\:\\           \\  \\:\\  \n");
+    printf("    \\  \\:\\      \\  \\::/       \\  \\:\\        \\  \\:\\        \\  \\:\\        \\  \\:\\        \\  \\:\\           \\  \\:\\  \n");
+    printf("     \\__\\/       \\__\\/         \\__\\/         \\__\\/         \\__\\/         \\__\\/         \\__\\/            \\__\\/         \n");     
     printf("\n");
     printf("+ ================================================================================================= +\n");
     printf("|                 Selamat datang di PURRMART, sebuah sistem jual beli ke Borma!                     |\n");
@@ -26,8 +27,10 @@ int main()
     printf("+ ================================================================================================= +\n");
     while (1)
     {
+        isCommandHelp = false;
         if (menu==1)
         {
+            printf("\n");
             printf("Masukkan command (kata langsung/angka): ");
             char command[100];
             input(command);
@@ -56,6 +59,7 @@ int main()
             } 
             else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
             {
+                clearterminal();
                 Help(menu);
                 isCommandHelp = true;
             } 
@@ -66,6 +70,7 @@ int main()
 
         else if (menu==2)
         {
+            printf("\n");
             printf("Masukkan command (kata langsung/angka): ");
             char command[100];
             input(command);
@@ -88,6 +93,7 @@ int main()
             }
             else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
             {
+                clearterminal();
                 Help(menu);
                 isCommandHelp = true;
             }  
@@ -98,6 +104,7 @@ int main()
 
         else if (menu==3)
         {
+            printf("\n");
             printf("Masukkan command (kata langsung/angka): ");
             char command[100];
             input(command);
@@ -145,6 +152,7 @@ int main()
             } 
             else if (strcmp(command,"HELP")==0||strcmp(command,"help")==0) 
             {
+                clearterminal();
                 Help(menu);
                 isCommandHelp = true;
             } 

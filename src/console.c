@@ -3,151 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-Pekerjaan pekerjaan[] = {
-    {"Evil Lab Assistant", 100, 14},
-    {"OWCA Hiring Manager", 4200, 21},
-    {"Cikapundunginator Caretaker", 7000, 30},
-    {"Mewing Specialist", 10000, 22},
-    {"Inator Connoisseur", 997, 15}
-};
-
-void Help(int menu) {
-
-    if (menu == 1) {
-        printf("+ ============================================================================== +\n");
-        printf("|                                 WELCOME TO PURRMART                            |\n");
-        printf("+ ============================================================================== +\n");
-        printf("|  1. [START] -> Untuk masuk sesi baru                                           |\n");
-        printf("|  2. [LOAD]  -> Untuk memulai sesi berdasarkan file konfigurasi                 |\n");
-        printf("|  3. [QUIT]  -> Untuk keluar dari program                                       |\n");
-        printf("+ ============================================================================== +\n");
-        printf("|                                 WELCOME TO PURRMART                            |\n");
-        printf("+ ============================================================================== +\n");
-    } else if (menu == 2) {
-        printf("+ ============================================================================== +\n");
-        printf("|                             LOGIN MENU HELP PURRMART                           |\n");
-        printf("+ ============================================================================== +\n");
-        printf("|  1. [REGISTER] -> Untuk melakukan pendaftaran akun baru                        |\n");
-        printf("|  2. [LOGIN]    -> Untuk masuk ke dalam akun dan memulai sesi                   |\n");
-        printf("|  3. [QUIT]     -> Untuk keluar dari program                                    |\n");
-        printf("+ ============================================================================== +\n");
-    } else if (menu == 3) {
-        printf("+ ============================================================================== +\n");
-        printf("|                             MAIN MENU HELP PURRMART                            |\n");
-        printf("+ ============================================================================== +\n");
-        printf("|  1. [WORK]             -> Untuk bekerja                                        |\n");
-        printf("|  2. [WORK CHALLENGE]   -> Untuk mengerjakan challenge                          |\n");
-        printf("|  3. [STORE LIST]       -> Untuk melihat barang-barang di toko                  |\n");
-        printf("|  4. [STORE REQUEST]    -> Untuk meminta penambahan barang                      |\n");
-        printf("| 5. [STORE SUPPLY]     -> Untuk menambahkan barang dari permintaan              |\n");
-        printf("|  6. [STORE REMOVE]     -> Untuk menghapus barang                               |\n");
-        printf("|  7. [BIO WEAPON]       -> Untuk membuat bioweapon                              |\n");
-        printf("|  8. [LOGOUT]           -> Untuk keluar dari sesi                               |\n");
-        printf("|  9. [SAVE]             -> Untuk menyimpan state ke dalam file                  |\n");
-        printf("| 10. [QUIT]             -> Untuk keluar dari program                            |\n");
-        printf("+ ============================================================================== +\n");
-    }
-}
-
-
-void start(ListBarang *itemlist, ListUser *userlist) {
-    int bisa=1;
-    Load("default.txt", itemlist, userlist, &bisa);
-    printf("File konfigurasi aplikasi berhasil dibaca. PURRMART berhasil dijalankan.\n");
-}
-
-void registeruser(ListUser *userlist) {
-    User newUser;
-    printf("username: ");
-    inputUsernamePassword(newUser.name);
-    printf("password: ");
-    inputUsernamePassword(newUser.password);
-    for (int i = 0; i < userlist->Neff; i++) 
-    {
-        if (strcmp(userlist->TI[i].name, newUser.name) == 0) 
-        {
-            printf("Username sudah terdaftar. Silakan gunakan username lain.\n");
-            return;
-        }
-    }
-    newUser.uang = 0;
-    InsertLastUser(userlist, newUser);
-    printf("Akun dengan username %s telah berhasil dibuat. Silakan LOGIN untuk melanjutkan.\n", newUser.name);
-}
-
-void login(ListUser *userlist, int *user_id) {
-    if (*user_id != -1) {
-        printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", userlist->TI[*user_id].name);
-        return;
-    }
-    char username[100], password[100];
-    printf("username: ");
-    inputUsernamePassword(username);
-    for (int i = 0; i < userlist->Neff; i++) {
-        if (strcmp(userlist->TI[i].name, username) == 0) {
-            printf("password: ");
-            inputUsernamePassword(password);
-            if (strcmp(userlist->TI[i].password, password) == 0) {
-                printf("Login berhasil. Selamat datang ke PURRMART, %s!\n", username);
-                *user_id = i;
-                return;
-            } else {
-                printf("Password salah. Silahkan coba lagi.\n");
-                return;
-            }
-        }
-    }
-    printf("Username tidak ditemukan. Silakan coba lagi.\n");
-}
-
-void logout(int *user_id, ListUser userlist) {
-    if (*user_id == -1) {
-        printf("Silahkan LOGIN terlebih dahulu.\n");
-        return;
-    }
-    printf("%s telah logout dari sistem PURRMART. Silakan REGISTER/LOGIN kembali untuk melanjutkan.\n", userlist.TI[*user_id].name);
-    *user_id = -1;
-}
-
-void work(int user_id, ListUser *userlist) {
-    // Menampilkan daftar pekerjaan
-    printf("Daftar pekerjaan:\n");
-    for (int i = 0; i < 5; i++) {
-        printf("%d. ", i + 1);
-        printf("%s (pendapatan=%d, durasi=%ds)\n",pekerjaan[i].nama,pekerjaan[i].pendapatan,pekerjaan[i].durasi);
-    }
-
-    char inputwork[100];
-    // Memilih pekerjaan
-    printf("\nMasukkan pekerjaan yang dipilih: ");
-    input(inputwork); // Menggunakan fungsi input dari mesinkata.c
-    boolean jobOngoing = false; // Tidak ada pekerjaan yang sedang dilakukan
-
-    for (int i = 0; i < 5; i++) { // Melakukan loop sebanyak jumlah pekerjaan yang ada
-        if (strcmp(inputwork, pekerjaan[i].nama)==0) {
-            jobOngoing = true; // Ada pekerjaan yang sedang dilakukan
-            printf("\nAnda sedang bekerja sebagai ");
-            printf("%s", pekerjaan[i].nama);
-            printf("... harap tunggu.\n");
-
-            time_t startTime = time(NULL); // Waktu pekerjaan dimulai
-            time_t endTime = startTime + pekerjaan[i].durasi; // Waktu pekerjaan berakhir
-            while (time(NULL) < endTime) {
-                // Mencontohkan loading
-            }
-
-            printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pekerjaan[i].pendapatan);
-            userlist->TI[user_id].uang += pekerjaan[i].pendapatan;
-            break; // Berhenti mengecek pekerjaan lainnya
-        }
-    }
-
-    if (!jobOngoing) {
-        printf("\nPekerjaan tidak ditemukan. Pastikan input sesuai dengan daftar pekerjaan.\n");
-    }
-}
-
-
 char *listKataInggris[LIST_SIZE] = {
     "AGENT", "AUDIO", "BLACK", "BUYER", "CRASH", 
     "CLAIM", "DELAY", "ENTRY", "FORTH", "GROUP", 
@@ -174,8 +29,323 @@ char *listKataIndo[LIST_SIZE] = {
     "GITAR", "IRAMA", "HABIS", "ANGIN", "BELAH"
 };
 
+/* ************************************************************************************************** */
+/* ****************************************** GENERAL *********************************************** */
+/* ************************************************************************************************** */
+
+/* HELP */
+void Help(int menu) {
+    if (menu == 1) {
+        printf("+ ============================================================================== +\n");
+        printf("|                               WELCOME TO PURRMART                              |\n");
+        printf("+ ============================================================================== +\n");
+        printf("|  1. [START] -> Untuk masuk sesi baru                                           |\n");
+        printf("|  2. [LOAD]  -> Untuk memulai sesi berdasarkan file konfigurasi                 |\n");
+        printf("|  3. [QUIT]  -> Untuk keluar dari program                                       |\n");
+        printf("+ ============================================================================== +\n");
+        printf("|                               WELCOME TO PURRMART                              |\n");
+        printf("+ ============================================================================== +\n");
+    } else if (menu == 2) {
+        printf("+ ============================================================================== +\n");
+        printf("|                           PURRMART'S LOGIN MENU HELP                           |\n");
+        printf("+ ============================================================================== +\n");
+        printf("|  1. [REGISTER] -> Untuk melakukan pendaftaran akun baru                        |\n");
+        printf("|  2. [LOGIN]    -> Untuk masuk ke dalam akun dan memulai sesi                   |\n");
+        printf("|  3. [QUIT]     -> Untuk keluar dari program                                    |\n");
+        printf("+ ============================================================================== +\n");
+    } else if (menu == 3) {
+        printf("+ ============================================================================== +\n");
+        printf("|                           PURRMART'S MAIN MENU HELP                            |\n");
+        printf("+ ============================================================================== +\n");
+        printf("|  1. [WORK]             -> Untuk bekerja                                        |\n");
+        printf("|  2. [WORK CHALLENGE]   -> Untuk mengerjakan challenge                          |\n");
+        printf("|  3. [STORE LIST]       -> Untuk melihat barang-barang di toko                  |\n");
+        printf("|  4. [STORE REQUEST]    -> Untuk meminta penambahan barang                      |\n");
+        printf("|  5. [STORE SUPPLY]     -> Untuk menambahkan barang dari permintaan             |\n");
+        printf("|  6. [STORE REMOVE]     -> Untuk menghapus barang                               |\n");
+        printf("|  7. [BIO WEAPON]       -> Untuk membuat bioweapon                              |\n");
+        printf("|  8. [LOGOUT]           -> Untuk keluar dari sesi                               |\n");
+        printf("|  9. [SAVE]             -> Untuk menyimpan state ke dalam file                  |\n");
+        printf("| 10. [QUIT]             -> Untuk keluar dari program                            |\n");
+        printf("+ ============================================================================== +\n");
+    }
+}
+
+/* QUIT */
+void quit(ListBarang itemlist, ListUser userlist) {
+    char answer[100];
+    printf("apakah anda ingin menyimpan sesi sekarang? (y/n): ");
+    input(answer);
+    if (strcmp(answer, "y") == 0) {
+        Save(itemlist, userlist);
+    }
+    else if (strcmp(answer, "n") == 0) {
+    }
+    else {
+        printf("Input tidak valid\n");
+    }
+    printf("Terima kasih telah bermain PURRMART\n");
+}
+
+/* CLEAR TERMINAL */
+void clearterminal() {
+    system("cls");
+}
+
+/* WAIT */
+void wait() {
+    time_t startTime = time(NULL);
+    time_t endTime = startTime + 4;
+    while (time(NULL) < endTime) {
+        if (time(NULL) > startTime) {
+            printf(". ");
+            fflush(stdout);
+            startTime = time(NULL);
+        }
+    }
+    printf("\n");
+}
+
+
+/* ************************************************************************************************** */
+/* *************************************** WELCOME MENU ********************************************* */
+/* ************************************************************************************************** */
+
+/* START */
+void start(ListBarang *itemlist, ListUser *userlist) {
+    int bisa=1;
+    Load("default.txt", itemlist, userlist, &bisa);
+    printf("File konfigurasi aplikasi berhasil dibaca. PURRMART berhasil dijalankan.\n");
+}
+
+/* LOAD */
+void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
+    boolean success;
+    STARTFILE(filename, &success);
+    if (!success) {
+        printf("ERROR: Failed to open file %s\n", filename);
+        *bisa = 0;
+        return;
+    }
+
+    CopyWord();
+
+    int jumlahBarang = wordtoInt(currentWord);
+    if (jumlahBarang < 0) {
+        return;
+    }
+
+    //handle barang
+    for (int i = 0; i < jumlahBarang; i++) {
+        ADV(); 
+
+        ADVWORD();
+        int harga = wordtoInt(currentWord);
+        if (harga < 0) {
+            continue;
+        }
+
+        ADVWORD();
+        char namaBarang[100];
+        int nameLength = 0; 
+        for (int j = 0; j < currentWord.Length; j++) {
+            namaBarang[nameLength++] = currentWord.TabWord[j];
+        }
+
+        while (!EOP && currentChar != '\n') { 
+            namaBarang[nameLength++] = ' '; 
+            ADVWORD();
+            for (int j = 0; j < currentWord.Length; j++) {
+                namaBarang[nameLength++] = currentWord.TabWord[j];
+            }
+        }
+        namaBarang[nameLength] = '\0'; 
+
+
+        Barang barangBaru;
+        barangBaru.harga = harga;
+        strcopy(barangBaru.name, namaBarang);
+        InsertBarangAt(itemlist, barangBaru, i);
+        *bisa = 1;
+    }
+
+
+    ADV();
+    CopyWord();
+
+
+    int jumlahUser = wordtoInt(currentWord);
+    if (jumlahUser < 0) {
+        return;
+    }
+
+    //handle user
+    for (int i = 0; i < jumlahUser; i++) {
+        ADV(); 
+
+        if (EOP) { 
+            break;
+        }
+
+        ADVWORD();
+        int uang = wordtoInt(currentWord);
+        if (uang < 0) {
+            continue;
+        }
+
+        ADVWORD();
+        char namapengguna[100];
+        WordToString(currentWord, namapengguna);
+      
+        ADVWORD();
+        char password[100];
+        WordToString(currentWord, password);
+
+        User penggunaBaru;
+        penggunaBaru.uang = uang;
+        strcopy(penggunaBaru.name, namapengguna);
+        strcopy(penggunaBaru.password, password);
+
+        InsertLastUser(userlist, penggunaBaru); 
+    }
+
+}
+
+
+/* ************************************************************************************************** */
+/* ***************************************** LOGIN MENU ********************************************* */
+/* ************************************************************************************************** */
+
+/* REGISTER */
+void registeruser(ListUser *userlist) {
+    User newUser;
+    printf("username: ");
+    inputUsernamePassword(newUser.name);
+    printf("password: ");
+    inputUsernamePassword(newUser.password);
+    for (int i = 0; i < userlist->Neff; i++) 
+    {
+        if (strcmp(userlist->TI[i].name, newUser.name) == 0) 
+        {
+            printf("Username sudah terdaftar. Silakan gunakan username lain.\n");
+            return;
+        }
+    }
+    newUser.uang = 0;
+    InsertLastUser(userlist, newUser);
+    printf("Akun dengan username %s telah berhasil dibuat. Silakan LOGIN untuk melanjutkan.\n", newUser.name);
+}
+
+/* LOGIN */
+void login(ListUser *userlist, int *user_id) {
+    if (*user_id != -1) {
+        printf("Anda masih tercatat sebagai %s. Silakan LOGOUT terlebih dahulu.\n", userlist->TI[*user_id].name);
+        return;
+    }
+    char username[100], password[100];
+    printf("username: ");
+    inputUsernamePassword(username);
+    for (int i = 0; i < userlist->Neff; i++) {
+        if (strcmp(userlist->TI[i].name, username) == 0) {
+            printf("password: ");
+            inputUsernamePassword(password);
+            if (strcmp(userlist->TI[i].password, password) == 0) {
+                printf("Login berhasil. Selamat datang ke PURRMART, %s!\n", username);
+                *user_id = i;
+                return;
+            } else {
+                printf("Password salah. Silahkan coba lagi.\n");
+                return;
+            }
+        }
+    }
+    printf("Username tidak ditemukan. Silakan coba lagi.\n");
+}
+
+
+/* ************************************************************************************************** */
+/* ***************************************** MAIN MENU ********************************************* */
+/* ************************************************************************************************** */
+
+/* LOGOUT */
+void logout(int *user_id, ListUser userlist) {
+    if (*user_id == -1) {
+        printf("Silahkan LOGIN terlebih dahulu.\n");
+        return;
+    }
+    printf("%s telah logout dari sistem PURRMART. Silakan REGISTER/LOGIN kembali untuk melanjutkan.\n", userlist.TI[*user_id].name);
+    *user_id = -1;
+}
+
+/* WORK */
+Pekerjaan pekerjaan[] = {
+    {"Evil Lab Assistant", 100, 14},
+    {"OWCA Hiring Manager", 4200, 21},
+    {"Cikapundunginator Caretaker", 7000, 30},
+    {"Mewing Specialist", 10000, 22},
+    {"Inator Connoisseur", 997, 15}
+};
+
+void work(int user_id, ListUser *userlist) {
+
+    char inputwork[100];
+
+    // Menampilkan daftar pekerjaan
+    printf("Daftar pekerjaan:\n");
+    for (int i = 0; i < 5; i++) {
+        printf("%d. ", i + 1);
+        printf("%s (pendapatan=%d, durasi=%ds)\n",pekerjaan[i].nama,pekerjaan[i].pendapatan,pekerjaan[i].durasi);
+    }
+
+    // Memilih pekerjaan
+    printf("\nMasukkan pekerjaan yang dipilih: ");
+    input(inputwork); // Menggunakan fungsi input dari mesinkata.c
+    boolean jobOngoing = false; // Tidak ada pekerjaan yang sedang dilakukan
+    for (int i = 0; i < 5; i++) { // Melakukan loop sebanyak jumlah pekerjaan yang ada
+        if (strcmp(inputwork, pekerjaan[i].nama)==0) {
+            jobOngoing = true; // Ada pekerjaan yang sedang dilakukan
+            printf("\nAnda sedang bekerja sebagai ");
+            printf("%s", pekerjaan[i].nama);
+            printf("... harap tunggu.\n");
+
+            time_t startTime = time(NULL); // Waktu pekerjaan dimulai
+            time_t endTime = startTime + pekerjaan[i].durasi; // Waktu pekerjaan berakhir
+            while (time(NULL) < endTime) {
+                // Mencontohkan loading
+            }
+
+            printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pekerjaan[i].pendapatan);
+            userlist->TI[user_id].uang += pekerjaan[i].pendapatan;
+            break; // Berhenti mengecek pekerjaan lainnya
+        }
+    }
+    
+    for (int i = 0; i < 5; i++) {
+        if (inputwork[0] == '1' + i) {
+            jobOngoing = true;
+            printf("\nAnda sedang bekerja sebagai ");
+            printf("%s", pekerjaan[i].nama);
+            printf("... harap tunggu.\n");
+
+            time_t startTime = time(NULL);
+            time_t endTime = startTime + pekerjaan[i].durasi;
+            while (time(NULL) < endTime) {
+                // Mencontohkan loading
+            }
+            printf("Pekerjaan selesai, +%d rupiah telah ditambahkan ke akun Anda.\n", pekerjaan[i].pendapatan);
+            userlist->TI[user_id].uang += pekerjaan[i].pendapatan;
+            break;
+        }
+    }
+
+    if (!jobOngoing) {
+        printf("\nPekerjaan tidak ditemukan. Pastikan input sesuai dengan daftar pekerjaan.\n");
+    }
+}
+
+/* WORK CHALLENGE */
 int RNG (int min, int max) {
-    return(rand() % (max - min + 1) + min); // nilai random berada pada rentang value minimal dan maksimal sesuai yang diinginkan
+    return(rand() % (max - min + 1) + min);
 }
 
 boolean isCharInKata (char c, char *kata) {
@@ -196,7 +366,7 @@ int idxCharInKata (char c, char *kata) {
     return -1;
 }
 
-void wordl3(char *kataJawaban,int user_id, ListUser *userlist) {
+void wordl3(char *kataJawaban, int user_id, ListUser *userlist) {
     char kataTebakan[WORD_LENGTH + 1]; // space terakhir untuk \0 sebagai null terminator
     char copyKataTebakan[WORD_LENGTH + 1]; // copyKataTebakan dan copyKataJawaban untuk dimodifikasi nantinya
     char copyKataJawaban[WORD_LENGTH + 1];
@@ -259,9 +429,9 @@ void wordl3(char *kataJawaban,int user_id, ListUser *userlist) {
 
         // bila kata tebakan = kata jawaban
         if (isKataEqual(kataTebakan, kataJawaban)) {
-            printf("SELAMAT TEBAKANMU BENAR! +650 RUPIAH TELAH DITAMBAHKAN KE AKUN ANDA!\n");
+            printf("SELAMAT TEBAKANMU BENAR! +900 RUPIAH TELAH DITAMBAHKAN KE AKUN ANDA!\n");
             tebakanBenar = true;
-            userlist->TI[user_id].uang += 650;
+            userlist->TI[user_id].uang += 900;
         }
     }
     
@@ -346,6 +516,7 @@ void workChallenge(int user_id, ListUser *userlist) {
     }
 }
 
+/* STORE LIST */
 void listStore(ListBarang A)
 {
     if (A.Neff==0)
@@ -365,6 +536,7 @@ void listStore(ListBarang A)
     input (&n);
 }
 
+/* STORE REQUEST */
 void requestStore(ListBarang A, Queue *Q) {
     char name[100];
     printf("Nama barang yang diminta: ");
@@ -393,6 +565,7 @@ void requestStore(ListBarang A, Queue *Q) {
     }
 }
 
+/* SUPPLY STORE */
 void supplyStore(ListBarang *A, Queue *Q)
 {
     if (IsEmptyQueue(*Q))
@@ -432,7 +605,7 @@ void supplyStore(ListBarang *A, Queue *Q)
     }
 }
 
-
+/* STORE REMOVE */
 void removeStore(ListBarang *A)
 {
     if (IsBarangEmpty(*A))
@@ -463,6 +636,7 @@ void removeStore(ListBarang *A)
     }
 }
 
+/* BIO WEAPON */
 void dna_to_rna(char *string) {
     for (int i = 0; i < strlength(string); i++) {
         if (string[i] == 'T') {
@@ -605,6 +779,7 @@ void bioweapon(Queue *Q,ListBarang A) {
     printf("Kode rahasia tidak ditemukan, maka senjata biologis sudah disabotase, barang ditolak!\n");
 }
 
+/* SAVE */
 void Save(ListBarang daftarBarang, ListUser daftarPengguna) {
     char namaFile[100];
     boolean success;
@@ -661,129 +836,4 @@ void Save(ListBarang daftarBarang, ListUser daftarPengguna) {
     }
 
     printf("Data berhasil disimpan ke file %s\n", namaFile);
-}
-
-
-void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
-    boolean success;
-    STARTFILE(filename, &success);
-    if (!success) {
-        printf("ERROR: Failed to open file %s\n", filename);
-        *bisa = 0;
-        return;
-    }
-
-    CopyWord();
-
-    int jumlahBarang = wordtoInt(currentWord);
-    if (jumlahBarang < 0) {
-        return;
-    }
-
-    //handle barang
-    for (int i = 0; i < jumlahBarang; i++) {
-        ADV(); 
-
-        ADVWORD();
-        int harga = wordtoInt(currentWord);
-        if (harga < 0) {
-            continue;
-        }
-
-        ADVWORD();
-        char namaBarang[100];
-        int nameLength = 0; 
-        for (int j = 0; j < currentWord.Length; j++) {
-            namaBarang[nameLength++] = currentWord.TabWord[j];
-        }
-
-        while (!EOP && currentChar != '\n') { 
-            namaBarang[nameLength++] = ' '; 
-            ADVWORD();
-            for (int j = 0; j < currentWord.Length; j++) {
-                namaBarang[nameLength++] = currentWord.TabWord[j];
-            }
-        }
-        namaBarang[nameLength] = '\0'; 
-
-
-        Barang barangBaru;
-        barangBaru.harga = harga;
-        strcopy(barangBaru.name, namaBarang);
-        InsertBarangAt(itemlist, barangBaru, i);
-        *bisa = 1;
-    }
-
-
-    ADV();
-    CopyWord();
-
-
-    int jumlahUser = wordtoInt(currentWord);
-    if (jumlahUser < 0) {
-        return;
-    }
-
-    //handle user
-    for (int i = 0; i < jumlahUser; i++) {
-        ADV(); 
-
-        if (EOP) { 
-            break;
-        }
-
-        ADVWORD();
-        int uang = wordtoInt(currentWord);
-        if (uang < 0) {
-            continue;
-        }
-
-        ADVWORD();
-        char namapengguna[100];
-        WordToString(currentWord, namapengguna);
-      
-        ADVWORD();
-        char password[100];
-        WordToString(currentWord, password);
-
-        User penggunaBaru;
-        penggunaBaru.uang = uang;
-        strcopy(penggunaBaru.name, namapengguna);
-        strcopy(penggunaBaru.password, password);
-
-        InsertLastUser(userlist, penggunaBaru); 
-    }
-
-}
-
-void quit(ListBarang itemlist, ListUser userlist) {
-    char answer[100];
-    printf("apakah anda ingin menyimpan sesi sekarang? (y/n): ");
-    input(answer);
-    if (strcmp(answer, "y") == 0) {
-        Save(itemlist, userlist);
-    }
-    else if (strcmp(answer, "n") == 0) {
-    }
-    else {
-        printf("Input tidak valid\n");
-    }
-    printf("Terima kasih telah bermain PURRMART\n");
-}
-
-void clearterminal() {
-    system("cls");
-}
-
-void wait() {
-    time_t startTime = time(NULL);
-    time_t endTime = startTime + 4;
-    while (time(NULL) < endTime) {
-        if (time(NULL) > startTime) {
-            printf(". ");
-            fflush(stdout);
-            startTime = time(NULL);
-        }
-    }
-    printf("\n");
 }

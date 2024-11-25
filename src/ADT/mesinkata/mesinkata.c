@@ -170,11 +170,12 @@ void printw(Word W, boolean newline) {
 }
 
 int strcmp(const char *str1, const char *str2) {
-    int i = 0;
-    while (str1[i] != '\0' && str1[i] == str2[i]) {
-        i++;
+    for (int i = 0; str1[i] || str2[i]; i++) {
+        if (str1[i] != str2[i]) {
+            return -1;
+        }
     }
-    return (unsigned char)str1[i] - (unsigned char)str2[i];
+    return 0;
 }
 
 void strcopy(char *dest, const char *src) {
@@ -209,13 +210,13 @@ void strconcat(char *dest, const char *src) {
 boolean strcontains(const char *str1, const char *str2) {
     int i = 0;
     int j = 0;
-    while (str1[i]) {
+    while (str1[i]!='\0') {
         if (str1[i] == str2[j]) {
-            while (str1[i + j] && str2[j] && str1[i + j] == str2[j]) {
+            while (str1[i + j]!='\0' && str2[j]!='\0' && str1[i + j] == str2[j]) {
                 j++;
             }
-            if (!str2[j]) {
-                return 1;
+            if (str2[j]=='\0') {
+                return -1;
             }
         }
         i++;
