@@ -76,6 +76,11 @@ void Help(int menu) {
         printf("|  9. [SAVE]             -> Untuk menyimpan state ke dalam file                  |\n");
         printf("| 10. [QUIT]             -> Untuk keluar dari program                            |\n");
         printf("+ ============================================================================== +\n");
+    } else if (menu ==4)
+    {
+        printf("+ ================================================================================================= +\n");
+        printf("| Ketikkan 'HELP' untuk mendapatkan informasi mengenai apa saja yang bisa Anda lakukan di PURRMART! |\n");
+        printf("+ ================================================================================================= +\n");
     }
 }
 

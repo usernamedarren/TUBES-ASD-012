@@ -7,8 +7,10 @@ int main()
     Queue Q; ListBarang B; ListUser U; CreateQueue(&Q); B=MakeListBarang(); MakeEmpty(&U);
     int menu=1,user_id=-1;
     boolean isCommandHelp = false;
-    clearterminal();                
-
+    int helpInstructed = 4;         
+    printf("+ ================================================================================================= +\n");
+    printf("|                 Selamat datang di PURRMART, sebuah sistem jual beli ke Borma!                     |\n");
+    printf("+ ================================================================================================= +\n");
     printf("      ___         ___           ___           ___           ___           ___           ___            ___                            \n"); 
     printf("     /  /\\       /__/\\         /  /\\         /  /\\         /__/\\         /  /\\         /  /\\          /  /\\                   \n");     
     printf("    /  /::\\      \\  \\:\\       /  /::\\       /  /::\\       |  |::\\       /  /::\\       /  /::\\        /  / /                  \n");     
@@ -21,15 +23,13 @@ int main()
     printf("    \\  \\:\\      \\  \\::/       \\  \\:\\        \\  \\:\\        \\  \\:\\        \\  \\:\\        \\  \\:\\           \\  \\:\\  \n");
     printf("     \\__\\/       \\__\\/         \\__\\/         \\__\\/         \\__\\/         \\__\\/         \\__\\/            \\__\\/         \n");     
     printf("\n");
-    printf("+ ================================================================================================= +\n");
-    printf("|                 Selamat datang di PURRMART, sebuah sistem jual beli ke Borma!                     |\n");
-    printf("| Ketikkan 'HELP' untuk mendapatkan informasi mengenai apa saja yang bisa Anda lakukan di PURRMART! |\n");
-    printf("+ ================================================================================================= +\n");
     while (1)
     {
         isCommandHelp = false;
         if (menu==1)
         {
+            Help(helpInstructed);
+            helpInstructed = 4;
             printf("\n");
             printf("Masukkan command (kata langsung/angka): ");
             char command[100];
@@ -62,6 +62,7 @@ int main()
                 clearterminal();
                 Help(menu);
                 isCommandHelp = true;
+                helpInstructed = -1;
             } 
             else {
                 printf("command tidak valid\n");
@@ -70,6 +71,8 @@ int main()
 
         else if (menu==2)
         {
+            Help(helpInstructed);
+            helpInstructed = 4;
             printf("\n");
             printf("Masukkan command (kata langsung/angka): ");
             char command[100];
@@ -96,6 +99,7 @@ int main()
                 clearterminal();
                 Help(menu);
                 isCommandHelp = true;
+                helpInstructed = -1;
             }  
             else {
                 printf("command tidak valid\n");
@@ -104,6 +108,8 @@ int main()
 
         else if (menu==3)
         {
+            Help(helpInstructed);
+            helpInstructed = 4;
             printf("\n");
             printf("Masukkan command (kata langsung/angka): ");
             char command[100];
@@ -155,6 +161,7 @@ int main()
                 clearterminal();
                 Help(menu);
                 isCommandHelp = true;
+                helpInstructed = -1;
             } 
             else {
                 printf("command tidak valid\n");
