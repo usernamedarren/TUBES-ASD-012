@@ -24,7 +24,7 @@ void CreateQueue(Queue *Q) {
     Q->idxTail = IDX_UNDEF;
 }
 
-void enqueue(Queue *Q, ElTypeChar X) {
+void enqueue(Queue *Q, ElTypeString X) {
     if (IsEmptyQueue(*Q)) {
         Q->idxHead = 0;
         Q->idxTail = 0;
@@ -35,7 +35,7 @@ void enqueue(Queue *Q, ElTypeChar X) {
     }
 }
 
-void dequeue(Queue *Q, ElTypeChar *X) {
+void dequeue(Queue *Q, ElTypeString *X) {
     strcopy(*X, Q->Tab[Q->idxHead]);
     if (Q->idxHead == Q->idxTail) {
         Q->idxHead = IDX_UNDEF;

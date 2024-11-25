@@ -11,11 +11,11 @@
 
 
 /* Definisi tipe elemen dan indeks pada Queue */
-typedef char ElTypeChar[100]; // Mengubah tipe elemen menjadi string
+typedef char ElTypeString[100]; // Mengubah tipe elemen menjadi string
 typedef int IdxType;
 
 typedef struct {
-    ElTypeChar Tab[IDX_MAX + 1]; /* tabel penyimpan elemen */
+    ElTypeString Tab[IDX_MAX + 1]; /* tabel penyimpan elemen */
     IdxType idxHead;         /* indeks elemen paling awal (terdepan) */
     IdxType idxTail;         /* indeks tempat menambah elemen baru */
 } Queue;
@@ -41,11 +41,11 @@ void CreateQueue(Queue *Q);
 /* F.S. Sebuah Q kosong terbentuk dengan kondisi sbb: */
 /* - Index head bernilai IDX_UNDEF */
 /* - Index tail bernilai IDX_UNDEF */
-void enqueue(Queue *Q, ElTypeChar X);
+void enqueue(Queue *Q, ElTypeString X);
 /* Proses: Menambahkan X pada Q dengan aturan FIFO */
 /* I.S. Q mungkin kosong, tabel penampung elemen Q TIDAK penuh */
 /* F.S. X menjadi TAIL yang baru, IDX_TAIL "maju" dengan mekanisme circular buffer */
-void dequeue(Queue *Q, ElTypeChar *X);
+void dequeue(Queue *Q, ElTypeString *X);
 /* Proses: Menghapus X pada Q dengan aturan FIFO */
 /* I.S. Q tidak mungkin kosong */
 /* F.S. X = nilai elemen HEAD pada I.S., HEAD "maju" dengan mekanisme circular buffer */
