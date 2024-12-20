@@ -30,30 +30,23 @@ void STARTWORDFILE(char *filename);
 
 void ADVWORD();
 
+void STARTWORD2();
 
 void ADVWORDFILE();
 
-
 void CopyWord();
-
 
 void CopyWordBlanks();
 
-
 void STARTLINE();
-
 
 boolean isKataEqual(char *kata1, char *kata2);
 
-
 void displayWord(Word W, boolean newLine);
-
 
 void WordToString(Word word, char *str);
 
-
 int wordtoInt(Word word);
-
 
 int strcmp(const char *str1, const char *str2);
 
@@ -70,5 +63,9 @@ void input(char *x);
 void inputint (int *x);
 
 void inputUsernamePassword(char *x);
+
+void CopyWord2();
+
+void stringtoint(char *x, int *res);
 
 #endif

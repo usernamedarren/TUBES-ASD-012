@@ -1,54 +1,46 @@
 #include "arrayuser.h"
 #include <stdio.h>
 
-void MakeEmpty(ListUser *T){
+void MakeEmpty(ListUser *T) {
     T->Neff = 0; 
-}	
-
-
-int NbElmt (ListUser T){
-	return T.Neff;
 }
 
-
-int MaxNbEl (){
-	return IdxMax - IdxMin + 1;
+int NbElmt(ListUser T) {
+    return T.Neff;
 }
 
-
-int GetFirstIdx (){
-	return 1;
+int MaxNbEl() {
+    return IdxMax - IdxMin + 1;
 }
-int GetLastIdx (ListUser T){
-	return T.Neff;
+
+int GetFirstIdx() {
+    return 1;
+}
+
+int GetLastIdx(ListUser T) {
+    return T.Neff;
 }
 
 User GetElmt(ListUser T, int i) {
-    if (i >= IdxMin && i <= T.Neff) {
-        return T.TI[i - 1];
-    } else {
-        printf("ERROR: Index out of bounds for index %d.\n", i);
-        User emptyUser = {"", "", 0}; 
-        return emptyUser;
+    return T.TI[i - 1];
+}
+
+void SetTab(ListUser Tin, ListUser *Tout) {
+    (*Tout).Neff = Tin.Neff;
+    for (int i = IdxMin; i <= Tin.Neff; i++) {
+        (*Tout).TI[i - 1] = Tin.TI[i - 1];
     }
 }
 
-void SetTab (ListUser Tin, ListUser *Tout){
-	(*Tout).Neff = Tin.Neff;
-	for(int i = IdxMin; i <= Tin.Neff; i++){
-		(*Tout).TI[i] = Tin.TI[i];
-	}
+void SetEl(ListUser *T, int i, User v) {
+    (*T).TI[i - 1] = v;
+    if ((*T).Neff < i) {
+        (*T).Neff = i;
+    }
 }
 
-void SetEl (ListUser *T, int i, User v){
-	(*T).TI[i] = v;
-	if ((*T).Neff < i){
-		(*T).Neff = i+1;
-	}
-}
-
-void SetNeff (ListUser *T, int N){
-	(*T).Neff = N;
+void SetNeff(ListUser *T, int N) {
+    (*T).Neff = N;
 }
 
 boolean IsIdxValid (int i){

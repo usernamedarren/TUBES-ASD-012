@@ -43,7 +43,6 @@ boolean IsUsersEmpty (ListUser T);
 
 boolean IsUsersFull (ListUser T);
 
-
 void InsertLastUser(ListUser *userlist, User user);
 
 void DeleteLastUser(ListUser *T);

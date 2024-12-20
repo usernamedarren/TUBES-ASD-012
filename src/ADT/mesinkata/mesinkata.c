@@ -27,6 +27,19 @@ void STARTWORD() {
     }
 }
 
+void STARTWORD2() {
+    ResetCurrentWord();
+    START();
+    IgnoreBlanks();
+    if (currentChar == MARK)
+        EndWord = true;
+    else
+    {
+        EndWord = false;
+        CopyWord2();
+    }
+}
+
 void ADVWORD() {
     ResetCurrentWord();
     if (EOP) {
@@ -36,7 +49,6 @@ void ADVWORD() {
     CopyWord();
     IgnoreBlanks();
 }
-
 
 void CopyWord() {
     int i = 0;
@@ -52,6 +64,19 @@ void CopyWord() {
     currentWord.Length = i;
 }
 
+void CopyWord2() {
+    int i = 0;
+    while ((currentChar != MARK))
+    {
+        if (i < NMax)
+        {
+            currentWord.TabWord[i] = currentChar;
+            i++;
+        }
+        ADV();
+    }
+    currentWord.Length = i;
+}
 
 void STARTWORDFILE(char *filename) {
     boolean success;
@@ -147,7 +172,8 @@ void WordToString(Word word, char *str) {
     str[word.Length] = '\0';
 }
 
-int wordtoInt(Word word) {
+int wordtoInt(Word word) 
+{
     int result = 0;
     for (int i = 0; i < word.Length; i++) 
     {
@@ -160,11 +186,25 @@ int wordtoInt(Word word) {
     return result;
 }
 
+void stringtoint(char *x, int *res)
+{
+    *res = 0;
+    for (int i = 0; x[i] != '\0'; i++) 
+    {
+        if (x[i] < '0' || x[i] > '9') 
+        {
+            *res = -1;
+            return;
+        }
+        *res = *res * 10 + (x[i] - '0');
+    }
+}
 
-
-void strcopy(char *str1, const char *str2) {
+void strcopy(char *str1, const char *str2) 
+{
     int i = 0;
-    while (str2[i] != '\0') {
+    while (str2[i] != '\0') 
+    {
         str1[i] = str2[i];
         i++;
     }
@@ -172,18 +212,22 @@ void strcopy(char *str1, const char *str2) {
 }
 
 
-int strlength(char *str) {
+int strlength(char *str) 
+{
     int length = 0;
-    while (str[length] != '\0') {
+    while (str[length] != '\0') 
+    {
         length++;
     }
     return length;
 }
 
-void strconcat(char *str1, const char *str2) {
+void strconcat(char *str1, const char *str2) 
+{
     int i = strlength(str1); 
     int j = 0;
-    while (str2[j] != '\0') {
+    while (str2[j] != '\0') 
+    {
         str1[i] = str2[j];
         i++;
         j++;
@@ -191,15 +235,30 @@ void strconcat(char *str1, const char *str2) {
     str1[i] = '\0';
 }
 
-boolean strcontains(const char *str1, const char *str2) {
+int strcmp(const char *str1, const char *str2) 
+{
+    int i = 0;
+    while (str1[i] != '\0' && str2[i] != '\0' && str1[i] == str2[i]) 
+    {
+        i++;
+    }
+    return str1[i] - str2[i];
+}
+
+boolean strcontains(const char *str1, const char *str2) 
+{
     int i = 0;
     int j = 0;
-    while (str1[i]!='\0') {
-        if (str1[i] == str2[j]) {
-            while (str1[i + j]!='\0' && str2[j]!='\0' && str1[i + j] == str2[j]) {
+    while (str1[i]!='\0') 
+    {
+        if (str1[i] == str2[j]) 
+        {
+            while (str1[i + j]!='\0' && str2[j]!='\0' && str1[i + j] == str2[j]) 
+            {
                 j++;
             }
-            if (str2[j]=='\0') {
+            if (str2[j]=='\0') 
+            {
                 return 1;
             }
         }
@@ -207,42 +266,54 @@ boolean strcontains(const char *str1, const char *str2) {
     }
     return 0;
 }
-void input(char *x) {
+void input(char *x) 
+{
     int idx = 0;
-    while (1) {
+    while (1) 
+    {
         idx = 0;
         START();
-        while (!IsEOP()) {
+        while (!IsEOP()) 
+        {
             x[idx++] = GetCC();
             ADV();
         }
         x[idx] = '\0';
 
-        if (strlength(x) == 0) {
+        if (strlength(x) == 0) 
+        {
             printf("Input tidak boleh kosong\n");
             printf("Masukkan ulang: ");
-        } else {
+        } else 
+        {
             break;
         }
     }
 }
 
-void inputint(int *x) {
-    while (1) {
+void inputint(int *x) 
+{
+    while (1) 
+    {
         char inputstr[100];
         int valid = 1;
 
         input(inputstr);
-        for (int i = 0; i < strlength(inputstr); i++) {
-            if (inputstr[i] < '0' || inputstr[i] > '9') {
+        for (int i = 0; i < strlength(inputstr); i++) 
+        {
+            if (inputstr[i] < '0' || inputstr[i] > '9') 
+            {
                 valid = 0;
                 break;
             }
         }
-        if (valid) {
+        if (valid) 
+        {
             *x = atoi(inputstr);
             break;
-        } else {
+        } 
+        else 
+        {
             printf("Input harus berupa angka\n");
             printf("Masukkan ulang: ");
         }
@@ -252,13 +323,16 @@ void inputint(int *x) {
 void inputUsernamePassword(char *x)
 {
     int idx = 0,spasi=0;
-    while (1) {
+    while (1) 
+    {
         idx = 0;
         START();
 
-        while (!IsEOP()) {
+        while (!IsEOP()) 
+        {
             char ch = GetCC();
-            if (ch == ' ') {
+            if (ch == ' ') 
+            {
                 printf("Input nama/password tidak valid\n");
                 printf("Masukkan ulang: ");
                 idx = 0; spasi=1;
@@ -268,13 +342,17 @@ void inputUsernamePassword(char *x)
             ADV();
         }
         x[idx] = '\0';
-        if (strlength(x)!=0) {
+        if (strlength(x)!=0) 
+        {
             break;
-        } else if (strlength(x) == 0 && spasi==0) {
+        } 
+        else if (strlength(x) == 0 && spasi==0) 
+        {
             printf("Input tidak boleh kosong\n");
             printf("Masukkan ulang: ");
         }
         spasi=0;
     }
 }
+
 

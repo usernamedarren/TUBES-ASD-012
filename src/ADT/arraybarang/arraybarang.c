@@ -68,6 +68,15 @@ void DeleteBarangAt(ListBarang *array, int i) {
     array->Neff--;
 }
 
+int getBarangIndex(ListBarang array, char *name) {
+    for (int i = 0; i < LengthListBarang(array); i++) {
+        if (isKataEqual(array.A[i].name, name)) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 
 
 

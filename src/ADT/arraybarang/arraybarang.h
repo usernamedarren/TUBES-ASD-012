@@ -32,6 +32,6 @@ void InsertBarangAt(ListBarang *array, Barang el, int i);
 
 void DeleteBarangAt(ListBarang *array, int i);
 
-
+int getBarangIndex(ListBarang array, char *name);
 
 #endif

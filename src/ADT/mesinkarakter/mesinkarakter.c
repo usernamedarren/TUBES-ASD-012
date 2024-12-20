@@ -35,6 +35,19 @@ void STARTFILE(char *filename, boolean *success) {
     }
 }
 
+boolean validtxt(char *str)
+{
+    int i = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] == '.' && str[i + 1] == 't' && str[i + 2] == 'x' && str[i + 3] == 't')
+        {
+            return true;
+        }
+        i++;
+    }
+    return false;
+}
 
 void WRITEFILE(char *filename, boolean *success) {
     static char path[200] = "save/";
