@@ -17,7 +17,6 @@ typedef int address_stack;
 typedef struct {
     infotypeStack T[MaxElStack];
     address_stack TOP;
-    int totalBiaya;
 } Stack;
 
 #define Top(S) (S).TOP

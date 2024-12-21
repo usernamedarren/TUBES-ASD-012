@@ -31,7 +31,6 @@ int main() {
     for (int i = 0; i <= Top(S); i++) {
         printf("Nama: %s - Harga: %d\n", S.T[i].namaBarang, S.T[i].totalHarga);
     }
-    printf("Total biaya: %d\n\n", S.totalBiaya);
 
     PopStack(&S, &poppedItem);
     printf("Pop Item3\n");
@@ -40,7 +39,6 @@ int main() {
     for (int i = 0; i <= Top(S); i++) {
         printf("Nama: %s - Harga: %d\n", S.T[i].namaBarang, S.T[i].totalHarga);
     }
-    printf("Total biaya: %d\n\n", S.totalBiaya);
 
     printf("Apakah Stack kosong? ");
     if (IsEmptyStack(S)) {
