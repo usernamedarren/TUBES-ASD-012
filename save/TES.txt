@@ -1,9 +1,11 @@
-4
+6
 10 AK47
 20 Lalabu
 20 Ayam Goreng Crisbar
 500 Meong
-2
+1 Kai Cenat
+200 Satualivin
+3
 100 user1 alstrukdatkeren
 6
 40 AK47
@@ -15,7 +17,15 @@
 2
 Ayam Goreng Crisbar
 AK47
-25 user2 kerenbangetkak
-0
+15 user2 kerenbangetkak
+1
+10 AK47
 1
 Meong
+61160 adam amir
+2
+500 Meong
+6000 Meong
+2
+AK47
+Kai Cenat
