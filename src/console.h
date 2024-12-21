@@ -7,6 +7,10 @@
 #include "ADT/mesinkata/mesinkata.h"
 #include "ADT/arrayuser/arrayuser.h"
 #include "ADT/kustom/kustom.h"
+#include "ADT/listlinier/listlinier.h"
+#include "ADT/map/map.h"
+#include "ADT/stack/stack.h"
+#include "art.h"
 
 #define LIST_SIZE 50
 #define MAX_ATTEMPTS 6
@@ -80,6 +84,36 @@ char* rna_to_protein (char *string,int idx);
 void bioweapon(Queue *Q, ListBarang A);
 
 /* SAVE */
-void Save(ListBarang itemlist, ListUser userlist);
+void Save(ListBarang itemlist, ListUser userlist,char *namaFile);
+
+
+/*===================================================Milestone 2====================================================================*/
+
+void profile (ListUser userlist,int user_id);
+
+
+void cartAdd (Map *M, char *nama, int kuantitas, ListBarang listb);
+
+void cartRemove (Map *M, char *nama, int kuantitas);
+
+void cartShow (Map M, ListBarang listb);
+
+void cartPay (Map *M, ListBarang listb, User *user, Stack *riwayat);
+
+boolean lexicalCheck (char *str1, char *str2);
+
+void history (Stack riwayat, int N);
+
+void wishlistadd(ListUser *userlist, int user_id, ListBarang itemlist);
+
+void wishlistswap(ListUser *userlist , int user_id,int idx1,int idx2);
+
+void wishlistremoveid(ListUser *userlist, int user_id, int posisi);
+
+void wishlistremovename(ListUser *userlist, int user_id);
+
+void wishlistclear(ListUser *userlist, int user_id);
+
+void wishlistshow(ListUser userlist, int user_id);
 
 #endif

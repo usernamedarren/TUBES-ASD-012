@@ -55,7 +55,7 @@ void Help(int menu) {
         printf("+ ============================================================================== +\n");
     } else if (menu == 2) {
         printf("+ ============================================================================== +\n");
-        printf("|                           PURRMART'S LOGIN MENU HELP                           |\n");
+        printf("|                             PURRMART'S LOGIN MENU                              |\n");
         printf("+ ============================================================================== +\n");
         printf("|  1. [REGISTER] -> Untuk melakukan pendaftaran akun baru                        |\n");
         printf("|  2. [LOGIN]    -> Untuk masuk ke dalam akun dan memulai sesi                   |\n");
@@ -63,19 +63,32 @@ void Help(int menu) {
         printf("+ ============================================================================== +\n");
     } else if (menu == 3) {
         printf("+ ============================================================================== +\n");
-        printf("|                           PURRMART'S MAIN MENU HELP                            |\n");
+        printf("|                             PURRMART'S MAIN MENU                               |\n");
         printf("+ ============================================================================== +\n");
-        printf("|  1. [WORK]             -> Untuk bekerja                                        |\n");
-        printf("|  2. [WORK CHALLENGE]   -> Untuk mengerjakan challenge                          |\n");
-        printf("|  3. [STORE LIST]       -> Untuk melihat barang-barang di toko                  |\n");
-        printf("|  4. [STORE REQUEST]    -> Untuk meminta penambahan barang                      |\n");
-        printf("|  5. [STORE SUPPLY]     -> Untuk menambahkan barang dari permintaan             |\n");
-        printf("|  6. [STORE REMOVE]     -> Untuk menghapus barang                               |\n");
-        printf("|  7. [BIO WEAPON]       -> Untuk membuat bioweapon                              |\n");
-        printf("|  8. [LOGOUT]           -> Untuk keluar dari sesi                               |\n");
-        printf("|  9. [SAVE]             -> Untuk menyimpan state ke dalam file                  |\n");
-        printf("| 10. [QUIT]             -> Untuk keluar dari program                            |\n");
+        printf("|  1. [PROFILE]           -> Untuk melihat dan mengedit profil Anda              |\n");
+        printf("|  2. [WORK]              -> Untuk bekerja                                       |\n");
+        printf("|  3. [WORK CHALLENGE]    -> Untuk mengerjakan challenge                         |\n");
+        printf("|  4. [STORE LIST]        -> Untuk melihat barang-barang di toko                 |\n");
+        printf("|  5. [STORE REQUEST]     -> Untuk meminta penambahan barang                     |\n");
+        printf("|  6. [STORE SUPPLY]      -> Untuk menambahkan barang dari permintaan            |\n");
+        printf("|  7. [STORE REMOVE]      -> Untuk menghapus barang                              |\n");
+        printf("|  8. [BIO WEAPON]        -> Untuk membuat bioweapon                             |\n");
+        printf("|  9. [CART ADD]          -> Untuk menambahkan barang ke keranjang               |\n");
+        printf("| 10. [CART REMOVE]       -> Untuk menghapus barang dari keranjang               |\n");
+        printf("| 11. [CART SHOW]         -> Untuk menampilkan isi keranjang                     |\n");
+        printf("| 12. [CART PAY]          -> Untuk melakukan pembayaran keranjang                |\n");
+        printf("| 13. [HISTORY]           -> Untuk melihat riwayat pembelian                     |\n");
+        printf("| 14. [WISHLIST ADD]      -> Untuk menambahkan barang ke wishlist                |\n");
+        printf("| 15. [WISHLIST SWAP i j] -> Untuk menukar barang di wishlist                    |\n");
+        printf("| 16. [WISHLIST REMOVE i] -> Untuk menghapus barang di wishlist sesuai indeks    |\n");
+        printf("| 17. [WISHLIST REMOVE]   -> Untuk menghapus barang di wishlist sesuai nama      |\n");
+        printf("| 18. [WISHLIST CLEAR]    -> Untuk menghapus semua barang dari wishlist          |\n");
+        printf("| 19. [WISHLIST SHOW]     -> Untuk melihat isi wishlist                          |\n");
+        printf("| 20. [LOGOUT]            -> Untuk keluar dari sesi                              |\n");
+        printf("| 21. [SAVE]              -> Untuk menyimpan state ke dalam file                 |\n");
+        printf("| 22. [QUIT]              -> Untuk keluar dari program                           |\n");
         printf("+ ============================================================================== +\n");
+
     } else if (menu ==4)
     {
         printf("+ ================================================================================================= +\n");
@@ -102,7 +115,10 @@ void quit(ListBarang itemlist, ListUser userlist) {
         }
     }
     if (isKataEqual(answer, "y")) {
-        Save(itemlist, userlist);
+        char name[50];
+        printf("Masukan nama file untuk menyimpan: ");
+        input (name);
+        Save(itemlist, userlist,name);
     }
     else if (isKataEqual(answer, "n")) {
     }
@@ -146,7 +162,7 @@ void start(ListBarang *itemlist, ListUser *userlist) {
 
 /* LOAD */
 void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
-    boolean success;
+    boolean success=true;
     STARTFILE(filename, &success);
     if (!success) {
         printf("ERROR: Failed to open file %s\n", filename);
@@ -161,7 +177,7 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
         return;
     }
 
-    //handle barang
+    // Handle barang
     for (int i = 0; i < jumlahBarang; i++) {
         ADV(); 
 
@@ -187,7 +203,6 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
         }
         namaBarang[nameLength] = '\0'; 
 
-
         Barang barangBaru;
         barangBaru.harga = harga;
         strcopy(barangBaru.name, namaBarang);
@@ -195,17 +210,15 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
         *bisa = 1;
     }
 
-
     ADV();
     CopyWord();
-
 
     int jumlahUser = wordtoInt(currentWord);
     if (jumlahUser < 0) {
         return;
     }
 
-    //handle user
+    // Handle user
     for (int i = 0; i < jumlahUser; i++) {
         ADV(); 
 
@@ -232,12 +245,68 @@ void Load(char *filename, ListBarang *itemlist, ListUser *userlist, int *bisa) {
         strcopy(penggunaBaru.name, namapengguna);
         strcopy(penggunaBaru.password, password);
 
-        InsertLastUser(userlist, penggunaBaru); 
+        ADV();
+        // Membaca riwayat pembelian (Stack)
+        CreateEmptyStack(&penggunaBaru.riwayat_pembelian);
+        CreateEmptyMap(&penggunaBaru.keranjang);
+        ADVWORD();
+        int countRiwayat = wordtoInt(currentWord);
+        for (int j = 0; j < countRiwayat; j++) {
+            ADV();
+            ADVWORD();
+            infotypeStack riwayat;
+            riwayat.namaBarang = (char*)malloc(100 * sizeof(char)); 
+            if (riwayat.namaBarang == NULL) {
+                printf("Gagal mengalokasikan memori untuk namaBarang\n");
+                return;
+            }
+            riwayat.totalHarga = wordtoInt(currentWord);
+            ADVWORD();
+            int nameLength = 0;
+            for (int k = 0; k < currentWord.Length; k++) {
+                riwayat.namaBarang[nameLength++] = currentWord.TabWord[k];
+            }
+
+            while (!EOP && currentChar != '\n') {
+                riwayat.namaBarang[nameLength++] = ' ';
+                ADVWORD();
+                for (int k = 0; k < currentWord.Length; k++) {
+                    riwayat.namaBarang[nameLength++] = currentWord.TabWord[k];
+                }
+            }
+            riwayat.namaBarang[nameLength] = '\0'; // Jangan lupa menambahkan karakter null di akhir string
+
+            PushStack(&penggunaBaru.riwayat_pembelian, riwayat);
+        }
+        ADV();
+        // Membaca wishlist (List)
+        CreateEmptyList(&penggunaBaru.wishlist);
+        ADVWORD();
+        int countWishlist = wordtoInt(currentWord);
+        for (int j = 0; j < countWishlist; j++) {
+            ADV();
+            ADVWORD();
+            char wishlistItem[100];
+            int nameLength = 0;
+            for (int k = 0; k < currentWord.Length; k++) {
+                wishlistItem[nameLength++] = currentWord.TabWord[k];
+            }
+
+            while (!EOP && currentChar != '\n') {
+                wishlistItem[nameLength++] = ' ';
+                ADVWORD();
+                for (int k = 0; k < currentWord.Length; k++) {
+                    wishlistItem[nameLength++] = currentWord.TabWord[k];
+                }
+            }
+            wishlistItem[nameLength] = '\0'; 
+
+            InsVLast(&penggunaBaru.wishlist, wishlistItem);
+        }
+
+        InsertLastUser(userlist, penggunaBaru);
     }
-
 }
-
-
 /* ************************************************************************************************** */
 /* ***************************************** LOGIN MENU ********************************************* */
 /* ************************************************************************************************** */
@@ -258,6 +327,9 @@ void registeruser(ListUser *userlist) {
         }
     }
     newUser.uang = 0;
+    CreateEmptyList(&newUser.wishlist);
+    CreateEmptyStack(&newUser.riwayat_pembelian);
+    CreateEmptyMap(&newUser.keranjang);
     InsertLastUser(userlist, newUser);
     printf("Akun dengan username %s telah berhasil dibuat. Silakan LOGIN untuk melanjutkan.\n", newUser.name);
 }
@@ -544,9 +616,9 @@ void listStore(ListBarang A)
             printf("%d. %s Price: %d\n",i+1,A.A[i].name,A.A[i].harga);
         }
     }
-    char n;
-    printf("Tekan karakter apapun untuk melanjutkan: \n");
-    input (&n);
+    char n[100];
+    printf("Tekan karakter apapun untuk melanjutkan: ");
+    input(n);
 }
 
 /* STORE REQUEST */
@@ -793,13 +865,8 @@ void bioweapon(Queue *Q,ListBarang A) {
 }
 
 /* SAVE */
-void Save(ListBarang daftarBarang, ListUser daftarPengguna) {
-    char namaFile[100];
+void Save(ListBarang daftarBarang, ListUser daftarPengguna, char *namaFile) {
     boolean success;
-
- 
-    printf("Masukkan nama file untuk menyimpan (tanpa folder): ");
-    input(namaFile); 
 
     WRITEFILE(namaFile, &success);
     if (!success) {
@@ -807,13 +874,13 @@ void Save(ListBarang daftarBarang, ListUser daftarPengguna) {
         return;
     }
 
-
+    // Menyimpan jumlah barang
     printint(LengthListBarang(daftarBarang));
     if (LengthListBarang(daftarBarang) > 0) {
         printchar('\n'); 
     }
 
-
+    // Menyimpan data barang
     for (int i = 0; i < LengthListBarang(daftarBarang); i++) {
         Barang barang = GetBarang(daftarBarang, i);
         printint(barang.harga); 
@@ -824,18 +891,17 @@ void Save(ListBarang daftarBarang, ListUser daftarPengguna) {
         }
     }
 
- 
     if (LengthListBarang(daftarBarang) > 0 && NbElmt(daftarPengguna) > 0) {
         printchar('\n');
     }
 
-
+    // Menyimpan jumlah pengguna
     printint(NbElmt(daftarPengguna));
     if (NbElmt(daftarPengguna) > 0) {
         printchar('\n'); 
     }
 
-    // Menulis data pengguna
+    // Menyimpan data pengguna
     for (int i = 0; i < NbElmt(daftarPengguna); i++) {
         User pengguna = GetElmt(daftarPengguna, i + 1);
         printint(pengguna.uang); 
@@ -843,10 +909,331 @@ void Save(ListBarang daftarBarang, ListUser daftarPengguna) {
         printstring(pengguna.name); 
         printchar(' ');          
         printstring(pengguna.password); 
+        printchar('\n');
+        printint(pengguna.riwayat_pembelian.TOP + 1);
+        if (pengguna.riwayat_pembelian.TOP + 1 > 0) {
+            printchar('\n'); 
+        }
+        for (int j = 0; j <= pengguna.riwayat_pembelian.TOP; j++) {
+            printint(pengguna.riwayat_pembelian.T[j].totalHarga); 
+            printchar(' '); 
+            printstring(pengguna.riwayat_pembelian.T[j].namaBarang); 
+            if (j != pengguna.riwayat_pembelian.TOP) {
+                printchar('\n'); 
+            }
+        }
+        printchar('\n');
+        printint(NbElmtList(pengguna.wishlist));
+        if (NbElmtList(pengguna.wishlist) > 0) {
+            printchar('\n'); 
+        }
+        address_list P = First(pengguna.wishlist);
+        while (P != NilList) {
+            printstring(Info(P)); 
+            if (Next(P) != NilList) {
+                printchar('\n'); 
+            }
+            P = Next(P);
+        }
         if (i != NbElmt(daftarPengguna) - 1) {
             printchar('\n'); 
         }
     }
 
     printf("Data berhasil disimpan ke file %s\n", namaFile);
+}
+
+/*===================================================Milestone 2====================================================================*/
+
+void profile (ListUser userlist,int user_id)
+{
+    
+    printf("Nama: %s\n",userlist.TI[user_id].name);
+    printf("Uang: %d\n",userlist.TI[user_id].uang);
+    printf("Password: ");
+    for (int i=0;i<strlength(userlist.TI[user_id].password);i++) printf("*");
+    printf("\n"); printf("\n");
+    char n[100];
+    printf("Apakah anda ingin melihat password? (y/n): "); input(n);
+    if (isKataEqual(n,"y"))
+    {
+        clearterminal();
+        artprofile();
+        printf("Nama: %s\n",userlist.TI[user_id].name);
+        printf("Uang: %d\n",userlist.TI[user_id].uang);
+        printf("Password: %s\n",userlist.TI[user_id].password);
+    }
+}
+
+void history (Stack riwayat, int N) {
+    if (N <= 0) {
+        printf("Input tidak valid\n");
+        return;
+    }
+    if (IsEmptyStack(riwayat)) {
+        printf("Kamu belum membeli barang apapun!\n");
+    } else {
+        printf("Riwayat pembelian barang: \n");
+        if (N > Top(riwayat)+1) {
+            N = Top(riwayat)+1;
+        }
+        Stack s; CreateEmptyStack(&s);
+        s=riwayat;
+        int i = 0;
+        while (!IsEmptyStack(s) && N > 0) {
+            infotypeStack X;
+            PopStack(&s,&X);
+            printf("%d. %s dengan harga %d\n",i+1,X.namaBarang,X.totalHarga);
+            i++;
+            N--;
+        }
+        printf("\n");
+    }
+}
+
+void cartAdd (Map *M, char *nama, int kuantitas, ListBarang B) {
+    if (getBarangIndex(B, nama) == -1) {
+        printf("Barang tidak ada di toko!\n");
+    } else {
+        if (IsMemberMap(*M, nama)) {
+            int idx = idxMap(*M, nama);
+            Elements(*M)[idx].Value += kuantitas;
+            printf("Berhasil menambahkan %d %s ke keranjang belanja!\n", kuantitas, nama);
+        } else {
+            InsertMap(M, nama, kuantitas);
+            printf("Berhasil menambahkan %d %s ke keranjang belanja!\n", kuantitas, nama);   
+        }
+    }
+}
+
+void cartRemove (Map *M, char *nama, int kuantitas) {
+    if (!IsMemberMap(*M, nama)) {
+        printf("Barang tidak ada di keranjang belanja!\n");
+    } else {
+        int idx = idxMap(*M, nama);
+        if (kuantitas > Elements(*M)[idx].Value) {
+            printf("Tidak berhasil mengurangi, hanya terdapat %d %s pada keranjang!\n", Elements(*M)[idx].Value, nama);
+        } else if (kuantitas < Elements(*M)[idx].Value) {
+            Elements(*M)[idx].Value -= kuantitas;
+            printf("Berhasil mengurangi %d %s dari keranjang belanja!\n", kuantitas, nama);
+        } else { // bila kuantitas barang di keranjang dihapus sepenuhnya
+            DeleteMap(M, nama);
+            printf("Berhasil mengurangi %d %s dari keranjang belanja!\n", kuantitas, nama);
+        }
+    }
+}
+
+void cartShow (Map M, ListBarang B) {
+    if (IsEmptyMap(M)) {
+        printf("Keranjang kamu kosong!\n");
+    } else {
+        printf("Berikut adalah isi keranjangmu.\n");
+        int totalHargaCart = 0;
+        printf("Kuantitas     Nama                 Total\n");
+        for (int i = 0; i < Count(M); i++) {
+            int idxBarang = getBarangIndex(B, Elements(M)[i].Key);
+            int hargaBarang = B.A[idxBarang].harga;
+            int totalHargaBarang = Elements(M)[i].Value*hargaBarang;
+            totalHargaCart += totalHargaBarang;
+            printf("%-13d %-20s %d\n", Elements(M)[i].Value, Elements(M)[i].Key, totalHargaBarang);
+        }
+        printf("total biaya yang harus dikeluarkan adalah %d.\n", totalHargaCart);
+        char n[100];
+        printf("Tekan karakter apapun untuk melanjutkan: "); input(n);
+    }
+}
+
+boolean lexicalCheck (char *str1, char *str2)
+{
+    int idx=0;
+    char temp1[100],temp2[100];
+    strcopy(temp1,str1); strcopy(temp2,str2);
+    while (1)
+    {   
+        if (temp1[idx]=='\0') return 1;
+        if (temp2[idx]=='\0') return 0;
+
+        if (temp1[idx]>=65 && temp1[idx]<=90) temp1[idx]+=32;
+        if (temp2[idx]>=65 && temp2[idx]<=90) temp2[idx]+=32;
+
+        if (temp1[idx]>temp2[idx]) return 1;
+        else if (temp1[idx]==temp2[idx]) idx++;
+        else return 0;
+    }
+}
+
+void cartPay (Map *M, ListBarang B, User *user, Stack *riwayat) {
+    if (IsEmptyMap(*M)) {
+        printf("Keranjang kamu kosong!\n");
+    } else {
+        char *confirm;
+        int totalHargaCart = 0;
+        infotypeStack max_Barang;
+        max_Barang.namaBarang=(char*)malloc(100 * sizeof(char)); 
+        max_Barang.totalHarga = -1;
+
+        printf("Kamu akan membeli barang-barang berikut.\n");
+        printf("Kuantitas     Nama                 Total\n");
+        for (int i = 0; i < Count(*M); i++) {
+            int idxBarang = getBarangIndex(B, Elements(*M)[i].Key);
+            int hargaBarang = B.A[idxBarang].harga;
+            int totalHargaBarang = Elements(*M)[i].Value*hargaBarang;
+            totalHargaCart += totalHargaBarang;
+            if (totalHargaBarang > max_Barang.totalHarga) {
+                max_Barang.totalHarga = totalHargaBarang;
+                strcopy(max_Barang.namaBarang,Elements(*M)[i].Key);
+
+            } else if (totalHargaBarang==max_Barang.totalHarga)
+            {
+                if (lexicalCheck(Elements(*M)->Key,max_Barang.namaBarang))
+                {
+                    max_Barang.totalHarga=totalHargaBarang;
+                    strcopy(max_Barang.namaBarang,Elements(*M)[i].Key);         
+                }
+            }
+            printf("%-13d %-20s %d\n", Elements(*M)[i].Value, Elements(*M)[i].Key, totalHargaBarang);
+        }
+
+        printf("total biaya yang harus dikeluarkan adalah %d, Apakah Anda jadi membeli?\n", totalHargaCart);
+        printf("(Ya/Tidak): ");
+        input(confirm);
+        printf("\n");
+
+        if (isKataEqual(confirm, "Ya")) {
+            if (user->uang < totalHargaCart) {
+                printf("Uang kamu hanya %d, tidak cukup untuk membeli barang-barang di keranjang!\n", user->uang);
+                
+            } else {
+                user->uang -= totalHargaCart;
+                PushStack(riwayat, max_Barang);
+                printf("Selamat kamu telah membeli barang-barang tersebut!\n");
+                CreateEmptyMap(M);
+            }
+        }
+    }
+}
+void wishlistadd(ListUser *userlist, int user_id, ListBarang itemlist)
+{
+    char name[100];
+    printf("Nama barang yang ingin ditambahkan ke WISHLIST: ");
+    input(name);
+    if (getBarangIndex(itemlist, name) == -1) {
+        printf("Tidak ada barang dengan nama %s di toko\n", name);
+        return;
+    }
+    if (SearchList(userlist->TI[user_id].wishlist,name))
+    {
+        printf("Barang sudah ada di WISHLIST\n");
+    }
+    else
+    {
+        InsVLast(&userlist->TI[user_id].wishlist,name);
+        printf("%s telah ditambahkan ke WISHLIST\n",name);
+    }
+}
+
+void wishlistswap(ListUser *userlist , int user_id,int idx1,int idx2)
+{
+    if (idx1<1 || idx2<1 )
+    {
+        printf("Penukaran barang gagal dilakukan, input tidak valid\n");
+    }
+    else if (IsEmptyList(userlist->TI[user_id].wishlist))
+    {
+        printf("Penukaran barang WISHLIST gagal dilakukan, WISHLIST kosong!\n");
+    }
+    else if (idx1 > NbElmtList(userlist->TI[user_id].wishlist)||idx2 > NbElmtList(userlist->TI[user_id].wishlist))
+    {
+        printf("Penukaran barang gagal dilakukan, hanya terdapat %d barang dalam WISHLIST\n",NbElmtList(userlist->TI[user_id].wishlist));
+    }
+    else
+    {
+        address_list P1 = First(userlist->TI[user_id].wishlist);
+        address_list P2 = First(userlist->TI[user_id].wishlist);
+        for (int i=0;i<idx1-1;i++)
+        {
+            P1 = Next(P1);
+        }
+        for (int i=0;i<idx2-1;i++)
+        {
+            P2 = Next(P2);
+        }
+        infotypelist temp = Info(P1);
+        Info(P1) = Info(P2);
+        Info(P2) = temp;
+        printf("Barang pada posisi ke-%d dan ke-%d telah ditukar\n",idx1,idx2);
+    }
+}
+
+void wishlistremoveid(ListUser *userlist, int user_id, int posisi)
+{
+    if (posisi<1)
+    {
+        printf("Penghapusan barang gagal dilakukan, input tidak valid\n");
+    }
+    else if (IsEmptyList(userlist->TI[user_id].wishlist))
+    {
+        printf("Penghapusan barang gagal dilakukan, WISHLIST kosong\n");
+    }
+    else if(posisi>NbElmtList(userlist->TI[user_id].wishlist))
+    {
+        printf("Penghapusan barang gagal dilakukan, hanya terdapat %d barang dalam WISHLIST\n",NbElmtList(userlist->TI[user_id].wishlist));
+    }
+    else if (IsEmptyList(userlist->TI[user_id].wishlist))
+    {
+        printf("Penghapusan barang WISHLIST gagal dilakukan, WISHLIST kosong!\n");
+    }
+    else
+    {
+        address_list P = First(userlist->TI[user_id].wishlist);
+        for (int i=0;i<posisi-1;i++)
+        {
+            P = Next(P);
+        }
+        DelP(&userlist->TI[user_id].wishlist,Info(P));
+        printf("Barang pada posisi ke-%d telah dihapus dari WISHLIST\n",posisi);
+    }
+}
+
+void wishlistremovename(ListUser *userlist, int user_id)
+{
+    printf("Nama barang yang ingin dihapus dari WISHLIST: ");
+    char name[100]; input(name);
+    if (SearchList(userlist->TI[user_id].wishlist,name)!=NilList)
+    {
+        DelP(&userlist->TI[user_id].wishlist,name);
+        printf("%s telah dihapus dari WISHLIST\n",name);
+    }
+    else
+    {
+        printf("Penghapusan barang WISHLIST gagal dilakukan, %s tidak ada di WISHLIST!\n",name);
+    }
+}
+
+void wishlistclear(ListUser *userlist, int user_id)
+{
+    if (IsEmptyList(userlist->TI[user_id].wishlist))
+    {
+        printf("WISHLIST sudah kosong\n");
+    }
+    else
+    {
+        CreateEmptyList(&userlist->TI[user_id].wishlist);
+        printf("WISHLIST telah dikosongkan\n");
+    }
+}
+
+void wishlistshow(ListUser userlist, int user_id)
+{
+    if (IsEmptyList(userlist.TI[user_id].wishlist))
+    {
+        printf("WISHLIST kosong\n");
+    }
+    else
+    {
+        PrintInfo(userlist.TI[user_id].wishlist);
+        char n[10];
+        printf("Tekan karakter apapun untuk melanjutkan: ");
+        input(n);
+    }
 }
