@@ -13,4 +13,4 @@ Ferro Arka Berlian	    / 18223027
 Jason Samuel	        / 18223091
 
 # Cara Kompilasi Program
-gcc -Wall src/main.c src/ADT/arraybarang/arraybarang.c src/ADT/circular_queue/circular_queue.c src/ADT/mesinkata/mesinkata.c src/ADT/mesinkarakter/mesinkarakter.c src/ADT/arrayuser/arrayuser.c src/console.c -o purrmart
+gcc src/ADT/listlinier/listlinier.c src/ADT/stack/stack.c src/ADT/map/map.c src/ADT/mesinkata/mesinkata.c src/ADT/mesinkarakter/mesinkarakter.c src/ADT/arraybarang/arraybarang.c src/ADT/arrayuser/arrayuser.c src/console.c src/main.c src/ADT/circular_queue/circular_queue.c src/art.c -o purrmart
