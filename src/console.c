@@ -868,6 +868,11 @@ void bioweapon(Queue *Q,ListBarang A) {
 void Save(ListBarang daftarBarang, ListUser daftarPengguna, char *namaFile) {
     boolean success;
 
+    if (!validtxt(namaFile)) {
+        printf("File harus berakhir dengan .txt\n");
+        return;
+    }
+
     WRITEFILE(namaFile, &success);
     if (!success) {
         printf("ERROR: Gagal membuka file untuk menyimpan.\n");
